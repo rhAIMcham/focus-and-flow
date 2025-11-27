@@ -230,21 +230,6 @@ Too complex - anxiety
   <button id="export-png" type="button">Export PNG</button>
   <button id="export-pdf" type="button">Export PDF</button>
 </div>
-<!-- Added id to Answers button so JS can open modal -->
-<button id="show-answers" type="button">Answers</button>
-
-<!-- Modal: separate editable answers table -->
-<div id="answers-modal" class="modal" aria-hidden="true">
-  <div class="modal-backdrop" data-close="true"></div>
-  <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="answers-title">
-    <h2 id="answers-title">Model Answers</h2>
-    <div id="answers-container">
-     <p>If you consider all the work tasks that make up a typical workday, where do you find your work tasks generally sit? Are they too simple, complex or are you able to reach states of flow regularly in your workday?</p>
-   
-    </div>
-       <button id="close-answers" class="modal-close" aria-label="Close answers">Close</button>
-  </div>
-</div>
 </body>
 <script>
   // Targets all textareas with class "txta"
@@ -326,7 +311,7 @@ document.getElementById('export-png').addEventListener('click', async () => {
   const dataUrl = canvas.toDataURL('image/png');
   const link = document.createElement('a');
   link.href = dataUrl;
-  link.download = 'Key-meeting-characteristics.png';
+  link.download = 'Flow and challenge.png';
   link.click();
 });
 
@@ -364,39 +349,8 @@ document.getElementById('export-pdf').addEventListener('click', async () => {
     }
   }
 
-  pdf.save('platforms.pdf');
+  pdf.save('Flow and challenge.pdf');
 });
-</script>
-
-<!-- Modal snapshot JS -->
-<script>
-(function(){
-  const showBtn = document.getElementById('show-answers');
-  const modal = document.getElementById('answers-modal');
-  const closeBtn = document.getElementById('close-answers');
-  const backdrop = modal.querySelector('.modal-backdrop');
-  const answerTextareas = modal.querySelectorAll('.answers-table-textarea');
-
-  function openModal() {
-    modal.classList.add('open');
-    modal.setAttribute('aria-hidden', 'false');
-    closeBtn.focus();
-  }
-
-  function closeModal() {
-    modal.classList.remove('open');
-    modal.setAttribute('aria-hidden', 'true');
-    showBtn.focus();
-  }
-
-  showBtn.addEventListener('click', openModal);
-  closeBtn.addEventListener('click', closeModal);
-  backdrop.addEventListener('click', closeModal);
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
-  });
-})();
 </script>
 
 </html>
