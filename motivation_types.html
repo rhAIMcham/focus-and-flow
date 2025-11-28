@@ -209,10 +209,9 @@
       background: white;
       padding: 40px;
       border-radius: 12px;
-      max-width: 500px;
+      max-width: 600px;
       width: 90%;
       box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-      text-align: center;
     }
 
     .modal-content h2 {
@@ -312,7 +311,7 @@
     </div>
   
   </div>
-    <!-- <button onclick="checkAnswers()" id="submitBtn" disabled>Submit</button> -->
+    <button onclick="checkAnswers()" id="submitBtn" disabled>Submit</button>
   <div class="modal-overlay" id="resultsModal">
     <div class="modal-content">
       <h2 id="modalTitle"></h2>
@@ -401,35 +400,35 @@
       }
     }
 
-    // function checkAnswers() {
-    //   // Define correct answers
-    //   const correctAnswers = {
-    //     purposeGroup: ['p1', 'p2'],
-    //     objGroup: ['obj1', 'obj2'],
-    //      outGroup: ['out1', 'out2']
+    function checkAnswers() {
+      // Define correct answers
+      const correctAnswers = {
+        purposeGroup: ['p1', 'p2'],
+        objGroup: ['obj1', 'obj2'],
+         outGroup: ['out1', 'out2']
 
         
-    //   };
+      };
 
-    //   let allCorrect = true;
-    //   let results = {
-    //     purposeGroup: { correct: 0, total: 2 },
-    //     objGroup: { correct: 0, total: 2 },
-    //     outGroup: { correct: 0, total: 2 }
-    //   };
+      let allCorrect = true;
+      let results = {
+        purposeGroup: { correct: 0, total: 2 },
+        objGroup: { correct: 0, total: 2 },
+        outGroup: { correct: 0, total: 2 }
+      };
 
-    //   // Check purpose group column
-    //   const purposeContainer = document.querySelector('[data-column="purposeGroup"]');
-    //   const purposeCards = purposeContainer.querySelectorAll('.card');
-    //  purposeCards.forEach(card => {
-    //     if (correctAnswers.purposeGroup.includes(card.id)) {
-    //       results.purposeGroup.correct++;
-    //       card.style.border = '3px solid #0f7c2e';
-    //     } else {
-    //       allCorrect = false;
-    //       card.style.border = '3px solid #d32f2f';
-    //     }
-    //   });
+      // Check purpose group column
+      const purposeContainer = document.querySelector('[data-column="purposeGroup"]');
+      const purposeCards = purposeContainer.querySelectorAll('.card');
+     purposeCards.forEach(card => {
+        if (correctAnswers.purposeGroup.includes(card.id)) {
+          results.purposeGroup.correct++;
+        //   card.style.border = '3px solid #0f7c2e';
+        } else {
+          allCorrect = false;
+        //   card.style.border = '3px solid #d32f2f';
+        }
+      });
 
     //   // Check communication tools column
     //   const objContainer = document.querySelector('[data-column="objGroup"]');
@@ -457,29 +456,24 @@
     //     }
     //   });
 
-    //   // Display results
-    //   if (allCorrect && purposeCards.length === 2 && objCards.length === 2 && outCards.length === 2) {
-    //       showModal('Correct!', 'All cards are in the correct columns!');
-    //   } else {
-    //           let message = `<p><strong>Purpose answers:</strong> ${results.purposeGroup.correct}/${results.purposeGroup.total} correct</p><br><p>
-    //            <strong>Purpose</strong> statements describe <em>why</em> the meeting exists — the overall reason for gathering.</p>`;
-    //     message += `<p><strong>Objective answers:</strong> ${results.objGroup.correct}/${results.objGroup.total} correct</p><br><p>
-    //            <strong>Objectives</strong> define <em>what will be done</em> during the meeting to fulfil that purpose.</p>`;
-    //             message += `<p><strong>Outcome answers:</strong> ${results.outGroup.correct}/${results.outGroup.total} correct</p><br><p>
-    //            <strong>Outcomes</strong> specify <em>what will be achieved or produced</em> by the end of the meeting.</p>`;
-    //     // message += '<p style="margin-top: 20px; font-size: 0.95em;">Green border = correct, Red border = incorrect</p>';
-    //     showModal('Results', message);
-    //   }
-    // }
-    //     function showModal(title, message) {
-    //   document.getElementById('modalTitle').textContent = title;
-    //   document.getElementById('modalMessage').innerHTML = message;
-    //   document.getElementById('resultsModal').classList.add('show');
-    // }
+      // Display results
+      if (allCorrect && purposeCards.length === 2 && objCards.length === 2 && outCards.length === 2) {
+          showModal('Correct!', 'All cards are in the correct columns!');
+      } else {
+              let message = `<p>Reflect on the tasks in your extrinsic motivation list. Are there any tasks that you could adjust to make them more intrinsically motivated?  For example, more time, improved environment, more challenge etc.</p>`;
+        // message += '<p style="margin-top: 20px; font-size: 0.95em;">Green border = correct, Red border = incorrect</p>';
+        showModal('Results', message);
+      }
+    }
+        function showModal(title, message) {
+      document.getElementById('modalTitle').textContent = title;
+      document.getElementById('modalMessage').innerHTML = message;
+      document.getElementById('resultsModal').classList.add('show');
+    }
 
-    // function closeModal() {
-    //   document.getElementById('resultsModal').classList.remove('show');
-    // }
+    function closeModal() {
+      document.getElementById('resultsModal').classList.remove('show');
+    }
 
 
     // Initialize on page load
