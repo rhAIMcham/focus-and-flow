@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meeting Agenda Builder</title>
+    <style>
+        :root {
+        --AIMblue: #4353A3;
+        --darkBlue: #38416D;
+        --teal: #5DC8B9;
+        --cream: #F1EEDE;
+        --grey: #e7e9ec;
+        --rust: #AF4510;
+        --navy: #12195C;
+        --white: #ffffff;
+        --lightBlue: #AEBAE4;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "IBM Plex Sans", sans-serif;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+        }
+
+        .titleArea {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .titleArea > button {
+            height: 75px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+
+        .subtitle {
+            margin-bottom: 30px;
+            font-size: 0.95em;
+        }
+
+        .section {
+            margin-bottom: 35px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid var(--AIMblue);
+        }
+
+        .section h2 {
+            color: var(--darkBlue);
+            margin-bottom: 20px;
+            font-size: 1.4em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-number {
+            background: var(--darkBlue);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9em;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: #444;
+            font-weight: 500;
+            font-size: 0.95em;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="time"],
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 0.95em;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+
+        input[type="text"]:focus,
+        input[type="date"]:focus,
+        input[type="time"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color:  var(--darkBlue);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            background: white;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        th {
+            background:  var(--darkBlue);
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        td input,
+        td textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        td textarea {
+            min-height: 40px;
+        }
+
+        button {
+            font-family: "IBM Plex Sans", sans-serif;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95em;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-add {
+            background:  var(--darkBlue);
+            color: white;
+            margin-top: 10px;
+        }
+
+        .btn-add:hover {
+            background: var(--lightBlue);
+            color: black;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-remove {
+            background: var(--rust);
+            color: white;
+            padding: 6px 12px;
+            font-size: 0.85em;
+        }
+
+        .btn-remove:hover {
+            background: #c0392b;
+        }
+
+        .btn-export {
+            background:var(--AIMblue);
+            color: white;
+            padding: 14px 30px;
+            font-size: 1.05em;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .btn-export:hover {
+            background: var(--teal);
+            color: black;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px var(--teal);
+        }
+
+        .example-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: var(--darkBlue);
+            text-decoration: none;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+
+        .example-link:hover {
+            text-decoration: underline;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: white;
+            margin: 3% auto;
+            padding: 30px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 85vh;
+            overflow-y: auto;
+            animation: slideDown 0.3s;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 20px;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        .modal h3 {
+          color: #333;
+            margin-bottom: 20px;
+        }
+
+        .modal table {
+            font-size: 0.9em;
+        }
+
+        .modal td, .modal th {
+            padding: 8px;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .container {
+                box-shadow: none;
+                padding: 20px;
+            }
+            
+            button {
+                display: none;
+            }
+            
+            .example-link {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="titleArea">
+            <div>
+        <h1>Designing your rhythmic workday</h1>
+        <p class="subtitle">Create a professional meeting agenda with all the essential details</p></div></div>
+        <!-- Section 1: Meeting Details -->
+        <div class="section">
+            <h2><span class="section-number">1</span>When do you feel most focused?</h2>
+            <div class="row">
+                <div class="form-group">
+                    <label for="date"></label>
+                    <input type="radio" id="date">
+                </div>
+                <div class="form-group">
+                    <label for="time-start">Start Time:</label>
+                    <input type="time" id="time-start">
+                </div>
+                <div class="form-group">
+                    <label for="time-end">End Time:</label>
+                    <input type="time" id="time-end">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="location">Location / Link:</label>
+                <input type="text" id="location" placeholder="e.g., Zoom / Conference Room 2">
+            </div>
+        </div>
+
+        <!-- Section 2: Purpose -->
+        <div class="section">
+            <h2><span class="section-number">2</span> Purpose</h2>
+            <div class="form-group">
+                <label for="purpose">What is the main purpose of this meeting?</label>
+                <textarea id="purpose" placeholder="e.g., To finalise the marketing campaign launch plan and allocate responsibilities."></textarea>
+            </div>
+        </div>
+
+        <!-- Section 3: Objectives -->
+        <div class="section">
+            <h2><span class="section-number">3</span> Objectives</h2>
+            <div id="objectives-container">
+                <div class="form-group">
+                    <label>Objective 1:</label>
+                    <input type="text" class="objective" placeholder="e.g., Approve the campaign budget">
+                </div>
+            </div>
+            <button class="btn-add" onclick="addObjective()">+ Add Objective</button>
+        </div>
+
+        <!-- Section 4: Time-Stamped Agenda -->
+        <div class="section">
+            <h2><span class="section-number">4</span> Time-Stamped Agenda</h2>
+            <table id="agenda-table">
+                <thead>
+                    <tr>
+                        <th style="width: 15%;">Time</th>
+                        <th style="width: 25%;">Topic</th>
+                        <th style="width: 20%;">Lead</th>
+                        <th style="width: 30%;">Notes / Materials</th>
+                        <th style="width: 10%;">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="agenda-body">
+                    <tr>
+                        <td><input type="time" placeholder="10:00"></td>
+                        <td><input type="text" placeholder="Welcome & Purpose"></td>
+                        <td><input type="text" placeholder="Facilitator"></td>
+                        <td><textarea placeholder="Agenda shared"></textarea></td>
+                        <td><button class="btn-remove" onclick="removeRow(this)">Remove</button></td>
+                    </tr>
+                </tbody>
+            </table>
+            <button class="btn-add" onclick="addAgendaRow()">+ Add Agenda Item</button>
+        </div>
+
+        <!-- Section 5: Expected Outcomes -->
+        <div class="section">
+            <h2><span class="section-number">5</span> Expected Outcomes</h2>
+            <div id="outcomes-container">
+                <div class="form-group">
+                    <label>Outcome 1:</label>
+                    <input type="text" class="outcome" placeholder="e.g., Budget approved">
+                </div>
+            </div>
+            <button class="btn-add" onclick="addOutcome()">+ Add Expected Outcome</button>
+        </div>
+
+        <button class="btn-export" onclick="exportToPDF()">Export to PDF</button>
+    </div>
+
+    <!-- Modal for Example -->
+    <div id="exampleModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h3>Example Meeting Agenda</h3>
+            <p><strong>Scenario:</strong> You are planning a meeting to prepare for the launch of a new marketing campaign next month.</p>
+            
+            <h4 style="margin-top: 20px; color: #333;">Meeting Details:</h4>
+            <ul style="margin-left: 20px; margin-bottom: 15px;">
+                <li>Date: 20 November 2025</li>
+                <li>Time: 10:00 – 11:30 AM</li>
+                <li>Location: Zoom / Conference Room 2</li>
+            </ul>
+
+            <h4 style="margin-top: 20px; color: #333;">Purpose:</h4>
+            <p style="margin-left: 20px; margin-bottom: 15px;">To finalise the marketing campaign launch plan and allocate responsibilities.</p>
+
+            <h4 style="margin-top: 20px; color: #333;">Objectives:</h4>
+            <ul style="margin-left: 20px; margin-bottom: 15px;">
+                <li>Approve the campaign budget</li>
+                <li>Confirm project timeline and milestones</li>
+                <li>Assign tasks to team members</li>
+                <li>Align promotional strategy across teams</li>
+            </ul>
+
+            <h4 style="margin-top: 20px; color: #333;">Agenda:</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Topic</th>
+                        <th>Lead</th>
+                        <th>Notes / Materials</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>10:00 – 10:10</td>
+                        <td>Welcome & Purpose</td>
+                        <td>Facilitator</td>
+                        <td>Agenda shared</td>
+                    </tr>
+                    <tr>
+                        <td>10:10 – 10:25</td>
+                        <td>Budget Approval</td>
+                        <td>Finance Lead</td>
+                        <td>Budget proposal document</td>
+                    </tr>
+                    <tr>
+                        <td>10:25 – 10:45</td>
+                        <td>Timeline Review</td>
+                        <td>Marketing Manager</td>
+                        <td>Project plan</td>
+                    </tr>
+                    <tr>
+                        <td>10:45 – 11:10</td>
+                        <td>Task Allocation</td>
+                        <td>Creative Lead</td>
+                        <td>Task matrix</td>
+                    </tr>
+                    <tr>
+                        <td>11:10 – 11:25</td>
+                        <td>Promotional Strategy Discussion</td>
+                        <td>Sales Lead</td>
+                        <td>Campaign strategy deck</td>
+                    </tr>
+                    <tr>
+                        <td>11:25 – 11:30</td>
+                        <td>Summary & Next Steps</td>
+                        <td>Facilitator</td>
+                        <td>Action items and responsibilities</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h4 style="margin-top: 20px; color: #333;">Expected Outcomes:</h4>
+            <ul style="margin-left: 20px;">
+                <li>Budget approved</li>
+                <li>Timeline finalised</li>
+                <li>Tasks assigned to appropriate team members</li>
+                <li>Promotional strategy aligned across departments</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Add html2canvas and jsPDF (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <script>
+        let objectiveCount = 1;
+        let outcomeCount = 1;
+
+        function addObjective() {
+            objectiveCount++;
+            const container = document.getElementById('objectives-container');
+            const div = document.createElement('div');
+            div.className = 'form-group';
+            div.innerHTML = `
+                <label>Objective ${objectiveCount}:</label>
+                <input type="text" class="objective" placeholder="Enter objective">
+            `;
+            container.appendChild(div);
+        }
+
+        function addOutcome() {
+            outcomeCount++;
+            const container = document.getElementById('outcomes-container');
+            const div = document.createElement('div');
+            div.className = 'form-group';
+            div.innerHTML = `
+                <label>Outcome ${outcomeCount}:</label>
+                <input type="text" class="outcome" placeholder="Enter expected outcome">
+            `;
+            container.appendChild(div);
+        }
+
+        function addAgendaRow() {
+            const tbody = document.getElementById('agenda-body');
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td><input type="time" placeholder="10:00"></td>
+                <td><input type="text" placeholder="Topic"></td>
+                <td><input type="text" placeholder="Lead"></td>
+                <td><textarea placeholder="Notes / Materials"></textarea></td>
+                <td><button class="btn-remove" onclick="removeRow(this)">Remove</button></td>
+            `;
+            tbody.appendChild(row);
+        }
+
+        function removeRow(button) {
+            const row = button.closest('tr');
+            row.remove();
+        }
+
+        function showExample(event) {
+            event.preventDefault();
+            document.getElementById('exampleModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('exampleModal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('exampleModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        async function exportToPDF() {
+            const { jsPDF } = window.jspdf;
+            
+            // Gather all form data
+            const date = document.getElementById('date').value;
+            const timeStart = document.getElementById('time-start').value;
+            const timeEnd = document.getElementById('time-end').value;
+            const location = document.getElementById('location').value;
+            const purpose = document.getElementById('purpose').value;
+
+            // Format time display
+            const timeDisplay = timeStart && timeEnd ? `${timeStart} – ${timeEnd}` : 
+                               timeStart ? timeStart : 
+                               timeEnd ? timeEnd : 'Not specified';
+
+            // Get objectives
+            const objectives = Array.from(document.querySelectorAll('.objective'))
+                .map(input => input.value)
+                .filter(val => val.trim() !== '');
+
+            // Get agenda items
+            const agendaRows = Array.from(document.querySelectorAll('#agenda-body tr'))
+                .map(row => {
+                    const inputs = row.querySelectorAll('input, textarea');
+                    return {
+                        time: inputs[0].value,
+                        topic: inputs[1].value,
+                        lead: inputs[2].value,
+                        notes: inputs[3].value
+                    };
+                })
+                .filter(item => item.time || item.topic);
+
+            // Get outcomes
+            const outcomes = Array.from(document.querySelectorAll('.outcome'))
+                .map(input => input.value)
+                .filter(val => val.trim() !== '');
+
+            // Format date
+            const formattedDate = date ? new Date(date).toLocaleDateString('en-GB', { 
+                day: 'numeric', 
+                month: 'long', 
+                year: 'numeric' 
+            }) : 'Not specified';
+
+            // Create a temporary container for PDF content
+            const pdfContainer = document.createElement('div');
+            pdfContainer.style.position = 'absolute';
+            pdfContainer.style.left = '-9999px';
+            pdfContainer.style.width = '210mm'; // A4 width
+            pdfContainer.style.padding = '20mm';
+            pdfContainer.style.backgroundColor = '#ffffff';
+            pdfContainer.style.fontFamily = 'Arial, sans-serif';
+            pdfContainer.style.color = '#333';
+
+            pdfContainer.innerHTML = `
+                <h1 style="color: #38416D; border-bottom: 3px solid #38416D; padding-bottom: 10px; margin-bottom: 20px; font-size: 32px;">Meeting Agenda</h1>
+                
+                <h2 style="color: #38416D; margin-top: 25px; margin-bottom: 10px; font-size: 24px;">Meeting Details</h2>
+                <div style="margin: 8px 0; font-size: 14px;"><strong style="color: #38416D;">Date:</strong> ${formattedDate}</div>
+                <div style="margin: 8px 0; font-size: 14px;"><strong style="color: #38416D;">Time:</strong> ${timeDisplay}</div>
+                <div style="margin: 8px 0; font-size: 14px;"><strong style="color: #38416D;">Location:</strong> ${location || 'Not specified'}</div>
+                
+                <h2 style="color: #38416D; margin-top: 25px; margin-bottom: 10px; font-size: 24px;">Purpose</h2>
+                <p style="font-size: 14px; line-height: 1.6;">${purpose || 'Not specified'}</p>
+                
+                <h2 style="color: #38416D; margin-top: 25px; margin-bottom: 10px; font-size: 24px;">Objectives</h2>
+                <ul style="margin: 10px 0; padding-left: 25px; font-size: 14px;">
+                    ${objectives.length > 0 ? objectives.map(obj => `<li style="margin: 8px 0; line-height: 1.6;">${obj}</li>`).join('') : '<li>No objectives specified</li>'}
+                </ul>
+                
+                <h2 style="color: #38416D; margin-top: 25px; margin-bottom: 10px; font-size: 24px;">Agenda</h2>
+                <table style="width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 13px;">
+                    <thead>
+                        <tr>
+                            <th style="background: #38416D; color: white; padding: 10px; text-align: left; border: 1px solid #38416D;">Time</th>
+                            <th style="background: #38416D; color: white; padding: 10px; text-align: left; border: 1px solid #38416D;">Topic</th>
+                            <th style="background: #38416D; color: white; padding: 10px; text-align: left; border: 1px solid #38416D;">Lead</th>
+                            <th style="background: #38416D; color: white; padding: 10px; text-align: left; border: 1px solid #38416D;">Notes / Materials</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${agendaRows.length > 0 ? agendaRows.map(item => `
+                            <tr>
+                                <td style="padding: 10px; border: 1px solid #ddd; line-height: 1.5;">${item.time || '-'}</td>
+                                <td style="padding: 10px; border: 1px solid #ddd; line-height: 1.5;">${item.topic || '-'}</td>
+                                <td style="padding: 10px; border: 1px solid #ddd; line-height: 1.5;">${item.lead || '-'}</td>
+                                <td style="padding: 10px; border: 1px solid #ddd; line-height: 1.5;">${item.notes || '-'}</td>
+                            </tr>
+                        `).join('') : '<tr><td colspan="4" style="padding: 10px; border: 1px solid #ddd;">No agenda items specified</td></tr>'}
+                    </tbody>
+                </table>
+                
+                <h2 style="color: #38416D; margin-top: 25px; margin-bottom: 10px; font-size: 24px;">Expected Outcomes</h2>
+                <ul style="margin: 10px 0; padding-left: 25px; font-size: 14px;">
+                    ${outcomes.length > 0 ? outcomes.map(outcome => `<li style="margin: 8px 0; line-height: 1.6;">${outcome}</li>`).join('') : '<li>No outcomes specified</li>'}
+                </ul>
+            `;
+
+            document.body.appendChild(pdfContainer);
+
+            // Capture as image using html2canvas
+            const canvas = await html2canvas(pdfContainer, { 
+                scale: 2, 
+                backgroundColor: '#ffffff', 
+                useCORS: true 
+            });
+            const imgData = canvas.toDataURL('image/png');
+
+            // Remove temporary container
+            document.body.removeChild(pdfContainer);
+
+            // Create PDF
+            const pdf = new jsPDF('p', 'mm', 'a4');
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = pdf.internal.pageSize.getHeight();
+
+            // Compute image dimensions to keep aspect ratio
+            const imgProps = pdf.getImageProperties(imgData);
+            const imgWidthMm = pdfWidth;
+            const imgHeightMm = (imgProps.height * imgWidthMm) / imgProps.width;
+
+            if (imgHeightMm <= pdfHeight) {
+                pdf.addImage(imgData, 'PNG', 0, 0, imgWidthMm, imgHeightMm);
+            } else {
+                // If long, tile image across pages
+                let position = 0;
+                let remainingHeight = imgHeightMm;
+                // Draw first page
+                pdf.addImage(imgData, 'PNG', 0, position, imgWidthMm, imgHeightMm);
+                remainingHeight -= pdfHeight;
+                while (remainingHeight > 0) {
+                    position -= pdfHeight;
+                    pdf.addPage();
+                    pdf.addImage(imgData, 'PNG', 0, position, imgWidthMm, imgHeightMm);
+                    remainingHeight -= pdfHeight;
+                }
+            }
+
+            // Save PDF
+            const filename = date ? `Meeting_Agenda_${date}.pdf` : 'Meeting_Agenda.pdf';
+            pdf.save(filename);
+        }
+    </script>
+</body>
+</html>
