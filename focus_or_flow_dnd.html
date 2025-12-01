@@ -251,44 +251,35 @@
       <div class="dragItems">
         <div class="column-header">Draggable Items</div>
         <div class="cards-container" data-column="dragItems" id="cardHome">
-        <div class="card"  id="obj1" draggable="true">
-                <p>Designing a visually appealing presentation                    
-                </p>
-            </div>
-                   <div class="card"  id="out2" draggable="true">
-                <p>Writing or refining reports
-                </p>
-            </div>
-            <div class="card"  id="p2" draggable="true">
+        <div class="card"  id="flow3" draggable="true">
                 <p>
-                    Learning a new software tool or skill
+                They coded a complex app, noticing challenges and solutions in real time, energised by the seamless connection between actions and results.
                 </p>
             </div>
-            <div class="card" id="out1" draggable="true">
+        <div class="card"  id="focus1" draggable="true">
+                <p>They read through the technical manual with intense concentration, trying to memorise the steps exactly, mentally drained but determined to finish.         
+                </p>
+            </div>
+                   <div class="card"  id="focus2" draggable="true">
+                <p>They reviewed the legal contract line by line, carefully analysing every clause, aware of the pressure to get it right.
+                </p>
+            </div>
+             <div class="card" id="flow2" draggable="true">
                 <p>
-                    Brainstorming ideas for process improvement
+                    They sketched the landscape, losing track of everything else, fully immersed in the act of creating without judgement or self-consciousness
                 </p>
             </div>
-               <div class="card" id="p1" draggable="true">
+            <div class="card"  id="focus3" draggable="true">
                 <p>
-                    Attending mandatory meetings
+                   They methodically checked each number for errors on the spreadsheet, feeling tense and forcing themself to stay on task
                 </p>
             </div>
-            <div class="card"  id="obj2" draggable="true">
+            <div class="card" id="flow1" draggable="true">
                 <p>
-                    Submitting performance reviews
+                   They played the piano effortlessly, completely absorbed in the music, feeling time dissolve as their fingers moved with intuitive precision.
                 </p>
             </div>
-            <div class="card"  id="obj2" draggable="true">
-                <p>
-                    Completing mandatory compliance training
-                </p>
-            </div>
-            <div class="card"  id="obj2" draggable="true">
-                <p>
-                   Responding to routine status emails
-                </p>
-            </div>
+              
         </div>
       </div>
 </div>
@@ -297,12 +288,12 @@
       <div class="column">
      
         <div class="cards-container" data-column="purposeGroup">
-             <div class="column-header">Intrinsic motivation<p>(completing for the sheer enjoyment and satisfaction it brings you)</p></div>
+             <div class="column-header">Focus</p></div>
         </div>
       </div>
       <div class="column">
         <div class="cards-container" data-column="objGroup">
-                  <div class="column-header">Extrinsic motivation<p>(completing for either a reward or pressure to complete)</p></div>
+                  <div class="column-header">Flow states</p></div>
         </div>
       </div>
     </div>
@@ -401,18 +392,15 @@
     function checkAnswers() {
       // Define correct answers
       const correctAnswers = {
-        purposeGroup: ['p1', 'p2'],
-        objGroup: ['obj1', 'obj2'],
-         outGroup: ['out1', 'out2']
-
+        purposeGroup: ['focus1', 'focus2', 'focus3'],
+        objGroup: ['flow1', 'flow2', 'flow3']
         
       };
 
       let allCorrect = true;
       let results = {
-        purposeGroup: { correct: 0, total: 2 },
-        objGroup: { correct: 0, total: 2 },
-        outGroup: { correct: 0, total: 2 }
+        purposeGroup: { correct: 0, total: 3 },
+        objGroup: { correct: 0, total: 3 }
       };
 
       // Check purpose group column
@@ -421,25 +409,25 @@
      purposeCards.forEach(card => {
         if (correctAnswers.purposeGroup.includes(card.id)) {
           results.purposeGroup.correct++;
-        //   card.style.border = '3px solid #0f7c2e';
+      card.style.border = '3px solid #0f7c2e';
         } else {
           allCorrect = false;
-        //   card.style.border = '3px solid #d32f2f';
+         card.style.border = '3px solid #d32f2f';
         }
       });
 
-    //   // Check communication tools column
-    //   const objContainer = document.querySelector('[data-column="objGroup"]');
-    //   const objCards = objContainer.querySelectorAll('.card');
-    //   objCards.forEach(card => {
-    //     if (correctAnswers.objGroup.includes(card.id)) {
-    //       results.objGroup.correct++;
-    //       card.style.border = '3px solid #0f7c2e';
-    //     } else {
-    //       allCorrect = false;
-    //       card.style.border = '3px solid #d32f2f';
-    //     }
-    //   });
+      // Check communication tools column
+      const objContainer = document.querySelector('[data-column="objGroup"]');
+      const objCards = objContainer.querySelectorAll('.card');
+      objCards.forEach(card => {
+        if (correctAnswers.objGroup.includes(card.id)) {
+          results.objGroup.correct++;
+          card.style.border = '3px solid #0f7c2e';
+        } else {
+          allCorrect = false;
+          card.style.border = '3px solid #d32f2f';
+        }
+      });
 
     //         // Check purpose group column
     //   const outContainer = document.querySelector('[data-column="outGroup"]');
@@ -455,7 +443,7 @@
     //   });
 
       // Display results
-      if (allCorrect && purposeCards.length === 2 && objCards.length === 2 && outCards.length === 2) {
+      if (allCorrect && purposeCards.length === 3 && objCards.length === 3) {
           showModal('Correct!', 'All cards are in the correct columns!');
       } else {
               let message = `<p>Reflect on the tasks in your extrinsic motivation list. Are there any tasks that you could adjust to make them more intrinsically motivated?  For example, more time, improved environment, more challenge etc.</p>`;
