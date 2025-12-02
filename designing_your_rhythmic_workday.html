@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meeting Agenda Builder</title>
+    <title>Rhythmic Workday Planner</title>
     <style>
         :root {
-        --AIMblue: #4353A3;
-        --darkBlue: #38416D;
-        --teal: #5DC8B9;
-        --cream: #F1EEDE;
-        --grey: #e7e9ec;
-        --rust: #AF4510;
-        --navy: #12195C;
-        --white: #ffffff;
-        --lightBlue: #AEBAE4;
+            --AIMblue: #4353A3;
+            --darkBlue: #38416D;
+            --teal: #5DC8B9;
+            --cream: #F1EEDE;
+            --grey: #e7e9ec;
+            --rust: #AF4510;
+            --navy: #12195C;
+            --white: #ffffff;
+            --lightBlue: #AEBAE4;
         }
 
         * {
@@ -27,6 +27,7 @@
             font-family: "IBM Plex Sans", sans-serif;
             padding: 20px;
             min-height: 100vh;
+            background: linear-gradient(135deg, var(--cream) 0%, var(--grey) 100%);
         }
 
         .container {
@@ -38,23 +39,17 @@
             padding: 40px;
         }
 
-        .titleArea {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .titleArea > button {
-            height: 75px;
-        }
         h1 {
-            color: #333;
+            color: var(--darkBlue);
             margin-bottom: 10px;
             font-size: 2em;
         }
 
         .subtitle {
+            color: #666;
             margin-bottom: 30px;
             font-size: 0.95em;
+            line-height: 1.5;
         }
 
         .section {
@@ -84,6 +79,7 @@
             align-items: center;
             justify-content: center;
             font-size: 0.9em;
+            flex-shrink: 0;
         }
 
         .form-group {
@@ -92,15 +88,40 @@
 
         label {
             display: block;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             color: #444;
             font-weight: 500;
             font-size: 0.95em;
         }
 
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .checkbox-item input[type="checkbox"],
+        .checkbox-item input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .checkbox-item label {
+            margin: 0;
+            font-weight: 400;
+            cursor: pointer;
+        }
+
         input[type="text"],
-        input[type="date"],
-        input[type="time"],
+        input[type="number"],
         textarea {
             width: 100%;
             padding: 12px;
@@ -112,181 +133,67 @@
         }
 
         input[type="text"]:focus,
-        input[type="date"]:focus,
-        input[type="time"]:focus,
+        input[type="number"]:focus,
         textarea:focus {
             outline: none;
-            border-color:  var(--darkBlue);
+            border-color: var(--darkBlue);
         }
 
         textarea {
             resize: vertical;
-            min-height: 80px;
+            min-height: 100px;
         }
 
-        .row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-            background: white;
+        .example-box {
+            background: var(--cream);
+            padding: 15px;
             border-radius: 6px;
-            overflow: hidden;
-        }
-
-        th {
-            background:  var(--darkBlue);
-            color: white;
-            padding: 12px;
-            text-align: left;
-            font-weight: 600;
-        }
-
-        td {
-            padding: 10px 12px;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        td input,
-        td textarea {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #e0e0e0;
-            border-radius: 4px;
+            margin-top: 10px;
             font-size: 0.9em;
+            color: #555;
+            font-style: italic;
         }
 
-        td textarea {
-            min-height: 40px;
+        .focus-block-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .focus-block-inputs input {
+            width: 100%;
+        }
+
+        .cycle-info {
+            background: var(--lightBlue);
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: var(--darkBlue);
         }
 
         button {
             font-family: "IBM Plex Sans", sans-serif;
-            padding: 10px 20px;
+            padding: 14px 30px;
             border: none;
             border-radius: 6px;
             cursor: pointer;
-            font-size: 0.95em;
+            font-size: 1.05em;
             font-weight: 600;
             transition: all 0.3s;
-        }
-
-        .btn-add {
-            background:  var(--darkBlue);
+            background: var(--AIMblue);
             color: white;
-            margin-top: 10px;
-        }
-
-        .btn-add:hover {
-            background: var(--lightBlue);
-            color: black;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn-remove {
-            background: var(--rust);
-            color: white;
-            padding: 6px 12px;
-            font-size: 0.85em;
-        }
-
-        .btn-remove:hover {
-            background: #c0392b;
-        }
-
-        .btn-export {
-            background:var(--AIMblue);
-            color: white;
-            padding: 14px 30px;
-            font-size: 1.05em;
             width: 100%;
             margin-top: 20px;
         }
 
-        .btn-export:hover {
+        button:hover {
             background: var(--teal);
             color: black;
             transform: translateY(-2px);
             box-shadow: 0 6px 20px var(--teal);
-        }
-
-        .example-link {
-            display: inline-block;
-            margin-top: 10px;
-            color: var(--darkBlue);
-            text-decoration: none;
-            font-size: 0.9em;
-            font-weight: 500;
-        }
-
-        .example-link:hover {
-            text-decoration: underline;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            animation: fadeIn 0.3s;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .modal-content {
-            background: white;
-            margin: 3% auto;
-            padding: 30px;
-            border-radius: 12px;
-            width: 90%;
-            max-width: 800px;
-            max-height: 85vh;
-            overflow-y: auto;
-            animation: slideDown 0.3s;
-        }
-
-        @keyframes slideDown {
-            from { transform: translateY(-50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-            line-height: 20px;
-        }
-
-        .close:hover {
-            color: #000;
-        }
-
-        .modal h3 {
-          color: #333;
-            margin-bottom: 20px;
-        }
-
-        .modal table {
-            font-size: 0.9em;
-        }
-
-        .modal td, .modal th {
-            padding: 8px;
         }
 
         @media print {
@@ -303,357 +210,177 @@
             button {
                 display: none;
             }
-            
-            .example-link {
-                display: none;
-            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="titleArea">
-            <div>
-        <h1>Designing your rhythmic workday</h1>
-        <p class="subtitle">Create a professional meeting agenda with all the essential details</p></div></div>
-        <!-- Section 1: Meeting Details -->
+        <h1>Designing Your Rhythmic Workday</h1>
+        <p class="subtitle">Think about how your focus naturally changes throughout the day. Use the prompts below to sketch a rhythm that supports both focus and recovery.</p>
+
+        <!-- Section 1: Peak Focus Time -->
         <div class="section">
             <h2><span class="section-number">1</span>When do you feel most focused?</h2>
-            <div class="row">
-                <div class="form-group">
-                    <label for="date"></label>
-                    <input type="radio" id="date">
-                </div>
-                <div class="form-group">
-                    <label for="time-start">Start Time:</label>
-                    <input type="time" id="time-start">
-                </div>
-                <div class="form-group">
-                    <label for="time-end">End Time:</label>
-                    <input type="time" id="time-end">
-                </div>
-            </div>
             <div class="form-group">
-                <label for="location">Location / Link:</label>
-                <input type="text" id="location" placeholder="e.g., Zoom / Conference Room 2">
+                <label>Select your peak focus time:</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="radio" id="morning" name="focusTime" value="Morning">
+                        <label for="morning">Morning</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="radio" id="midday" name="focusTime" value="Midday">
+                        <label for="midday">Midday</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="radio" id="afternoon" name="focusTime" value="Afternoon">
+                        <label for="afternoon">Afternoon</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="radio" id="evening" name="focusTime" value="Evening">
+                        <label for="evening">Evening</label>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Section 2: Purpose -->
+        <!-- Section 2: High-Focus Task -->
         <div class="section">
-            <h2><span class="section-number">2</span> Purpose</h2>
+            <h2><span class="section-number">2</span>Match one high-focus task to that time</h2>
             <div class="form-group">
-                <label for="purpose">What is the main purpose of this meeting?</label>
-                <textarea id="purpose" placeholder="e.g., To finalise the marketing campaign launch plan and allocate responsibilities."></textarea>
-            </div>
-        </div>
-
-        <!-- Section 3: Objectives -->
-        <div class="section">
-            <h2><span class="section-number">3</span> Objectives</h2>
-            <div id="objectives-container">
-                <div class="form-group">
-                    <label>Objective 1:</label>
-                    <input type="text" class="objective" placeholder="e.g., Approve the campaign budget">
+                <label for="highFocusTask">What task requires your deepest concentration?</label>
+                <input type="text" id="highFocusTask" placeholder="Enter your high-focus task">
+                <div class="example-box">
+                    Example: Write report draft at 9 am when focus is strongest.
                 </div>
             </div>
-            <button class="btn-add" onclick="addObjective()">+ Add Objective</button>
         </div>
 
-        <!-- Section 4: Time-Stamped Agenda -->
+        <!-- Section 3: Focus Block -->
         <div class="section">
-            <h2><span class="section-number">4</span> Time-Stamped Agenda</h2>
-            <table id="agenda-table">
-                <thead>
-                    <tr>
-                        <th style="width: 15%;">Time</th>
-                        <th style="width: 25%;">Topic</th>
-                        <th style="width: 20%;">Lead</th>
-                        <th style="width: 30%;">Notes / Materials</th>
-                        <th style="width: 10%;">Action</th>
-                    </tr>
-                </thead>
-                <tbody id="agenda-body">
-                    <tr>
-                        <td><input type="time" placeholder="10:00"></td>
-                        <td><input type="text" placeholder="Welcome & Purpose"></td>
-                        <td><input type="text" placeholder="Facilitator"></td>
-                        <td><textarea placeholder="Agenda shared"></textarea></td>
-                        <td><button class="btn-remove" onclick="removeRow(this)">Remove</button></td>
-                    </tr>
-                </tbody>
-            </table>
-            <button class="btn-add" onclick="addAgendaRow()">+ Add Agenda Item</button>
-        </div>
-
-        <!-- Section 5: Expected Outcomes -->
-        <div class="section">
-            <h2><span class="section-number">5</span> Expected Outcomes</h2>
-            <div id="outcomes-container">
-                <div class="form-group">
-                    <label>Outcome 1:</label>
-                    <input type="text" class="outcome" placeholder="e.g., Budget approved">
+            <h2><span class="section-number">3</span>Set a focus block</h2>
+            <div class="form-group">
+                <label>Design your focus rhythm:</label>
+                <div class="focus-block-inputs">
+                    <div>
+                        <label for="workMinutes">How many minutes will I work for?</label>
+                        <input type="number" id="workMinutes" placeholder="e.g., 50" min="1">
+                    </div>
+                    <div>
+                        <label for="breakMinutes">How long will my break be?</label>
+                        <input type="number" id="breakMinutes" placeholder="e.g., 10" min="1">
+                    </div>
+                </div>
+                <div class="cycle-info">
+                    💡 Repeat up to 4 cycles, then take a longer rest
                 </div>
             </div>
-            <button class="btn-add" onclick="addOutcome()">+ Add Expected Outcome</button>
         </div>
 
-        <button class="btn-export" onclick="exportToPDF()">Export to PDF</button>
+        <!-- Section 4: Renewal Activity -->
+        <div class="section">
+            <h2><span class="section-number">4</span>Choose a renewal activity</h2>
+            <div class="form-group">
+                <label>How will you recharge between focus blocks?</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="walk" name="renewal">
+                        <label for="walk">Walk</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="stretch" name="renewal">
+                        <label for="stretch">Stretch</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="breathe" name="renewal">
+                        <label for="breathe">Breathe</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="stepOutside" name="renewal">
+                        <label for="stepOutside">Step outside</label>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top: 15px;">
+                    <label for="otherActivity">Other:</label>
+                    <input type="text" id="otherActivity" placeholder="Describe your renewal activity">
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 5: Reflection -->
+        <div class="section">
+            <h2><span class="section-number">5</span>Reflect</h2>
+            <div class="form-group">
+                <label for="reflection">What one change will you make tomorrow to align your work with your energy rhythm?</label>
+                <textarea id="reflection" placeholder="Write your commitment here..."></textarea>
+            </div>
+        </div>
+
+        <button onclick="exportToPDF()">Download My Rhythm Plan</button>
     </div>
 
-    <!-- Modal for Example -->
-    <div id="exampleModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <h3>Example Meeting Agenda</h3>
-            <p><strong>Scenario:</strong> You are planning a meeting to prepare for the launch of a new marketing campaign next month.</p>
-            
-            <h4 style="margin-top: 20px; color: #333;">Meeting Details:</h4>
-            <ul style="margin-left: 20px; margin-bottom: 15px;">
-                <li>Date: 20 November 2025</li>
-                <li>Time: 10:00 – 11:30 AM</li>
-                <li>Location: Zoom / Conference Room 2</li>
-            </ul>
-
-            <h4 style="margin-top: 20px; color: #333;">Purpose:</h4>
-            <p style="margin-left: 20px; margin-bottom: 15px;">To finalise the marketing campaign launch plan and allocate responsibilities.</p>
-
-            <h4 style="margin-top: 20px; color: #333;">Objectives:</h4>
-            <ul style="margin-left: 20px; margin-bottom: 15px;">
-                <li>Approve the campaign budget</li>
-                <li>Confirm project timeline and milestones</li>
-                <li>Assign tasks to team members</li>
-                <li>Align promotional strategy across teams</li>
-            </ul>
-
-            <h4 style="margin-top: 20px; color: #333;">Agenda:</h4>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Time</th>
-                        <th>Topic</th>
-                        <th>Lead</th>
-                        <th>Notes / Materials</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>10:00 – 10:10</td>
-                        <td>Welcome & Purpose</td>
-                        <td>Facilitator</td>
-                        <td>Agenda shared</td>
-                    </tr>
-                    <tr>
-                        <td>10:10 – 10:25</td>
-                        <td>Budget Approval</td>
-                        <td>Finance Lead</td>
-                        <td>Budget proposal document</td>
-                    </tr>
-                    <tr>
-                        <td>10:25 – 10:45</td>
-                        <td>Timeline Review</td>
-                        <td>Marketing Manager</td>
-                        <td>Project plan</td>
-                    </tr>
-                    <tr>
-                        <td>10:45 – 11:10</td>
-                        <td>Task Allocation</td>
-                        <td>Creative Lead</td>
-                        <td>Task matrix</td>
-                    </tr>
-                    <tr>
-                        <td>11:10 – 11:25</td>
-                        <td>Promotional Strategy Discussion</td>
-                        <td>Sales Lead</td>
-                        <td>Campaign strategy deck</td>
-                    </tr>
-                    <tr>
-                        <td>11:25 – 11:30</td>
-                        <td>Summary & Next Steps</td>
-                        <td>Facilitator</td>
-                        <td>Action items and responsibilities</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <h4 style="margin-top: 20px; color: #333;">Expected Outcomes:</h4>
-            <ul style="margin-left: 20px;">
-                <li>Budget approved</li>
-                <li>Timeline finalised</li>
-                <li>Tasks assigned to appropriate team members</li>
-                <li>Promotional strategy aligned across departments</li>
-            </ul>
-        </div>
-    </div>
-
-    <!-- Add html2canvas and jsPDF (CDN) -->
     <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <script>
-        let objectiveCount = 1;
-        let outcomeCount = 1;
-
-        function addObjective() {
-            objectiveCount++;
-            const container = document.getElementById('objectives-container');
-            const div = document.createElement('div');
-            div.className = 'form-group';
-            div.innerHTML = `
-                <label>Objective ${objectiveCount}:</label>
-                <input type="text" class="objective" placeholder="Enter objective">
-            `;
-            container.appendChild(div);
-        }
-
-        function addOutcome() {
-            outcomeCount++;
-            const container = document.getElementById('outcomes-container');
-            const div = document.createElement('div');
-            div.className = 'form-group';
-            div.innerHTML = `
-                <label>Outcome ${outcomeCount}:</label>
-                <input type="text" class="outcome" placeholder="Enter expected outcome">
-            `;
-            container.appendChild(div);
-        }
-
-        function addAgendaRow() {
-            const tbody = document.getElementById('agenda-body');
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td><input type="time" placeholder="10:00"></td>
-                <td><input type="text" placeholder="Topic"></td>
-                <td><input type="text" placeholder="Lead"></td>
-                <td><textarea placeholder="Notes / Materials"></textarea></td>
-                <td><button class="btn-remove" onclick="removeRow(this)">Remove</button></td>
-            `;
-            tbody.appendChild(row);
-        }
-
-        function removeRow(button) {
-            const row = button.closest('tr');
-            row.remove();
-        }
-
-        function showExample(event) {
-            event.preventDefault();
-            document.getElementById('exampleModal').style.display = 'block';
-        }
-
-        function closeModal() {
-            document.getElementById('exampleModal').style.display = 'none';
-        }
-
-        window.onclick = function(event) {
-            const modal = document.getElementById('exampleModal');
-            if (event.target === modal) {
-                modal.style.display = 'none';
-            }
-        }
-
         async function exportToPDF() {
             const { jsPDF } = window.jspdf;
             
             // Gather all form data
-            const date = document.getElementById('date').value;
-            const timeStart = document.getElementById('time-start').value;
-            const timeEnd = document.getElementById('time-end').value;
-            const location = document.getElementById('location').value;
-            const purpose = document.getElementById('purpose').value;
-
-            // Format time display
-            const timeDisplay = timeStart && timeEnd ? `${timeStart} – ${timeEnd}` : 
-                               timeStart ? timeStart : 
-                               timeEnd ? timeEnd : 'Not specified';
-
-            // Get objectives
-            const objectives = Array.from(document.querySelectorAll('.objective'))
-                .map(input => input.value)
-                .filter(val => val.trim() !== '');
-
-            // Get agenda items
-            const agendaRows = Array.from(document.querySelectorAll('#agenda-body tr'))
-                .map(row => {
-                    const inputs = row.querySelectorAll('input, textarea');
-                    return {
-                        time: inputs[0].value,
-                        topic: inputs[1].value,
-                        lead: inputs[2].value,
-                        notes: inputs[3].value
-                    };
-                })
-                .filter(item => item.time || item.topic);
-
-            // Get outcomes
-            const outcomes = Array.from(document.querySelectorAll('.outcome'))
-                .map(input => input.value)
-                .filter(val => val.trim() !== '');
-
-            // Format date
-            const formattedDate = date ? new Date(date).toLocaleDateString('en-GB', { 
-                day: 'numeric', 
-                month: 'long', 
-                year: 'numeric' 
-            }) : 'Not specified';
+            const focusTime = document.querySelector('input[name="focusTime"]:checked')?.value || 'Not selected';
+            const highFocusTask = document.getElementById('highFocusTask').value || 'Not specified';
+            const workMinutes = document.getElementById('workMinutes').value || 'Not specified';
+            const breakMinutes = document.getElementById('breakMinutes').value || 'Not specified';
+            
+            // Get selected renewal activities
+            const renewalActivities = [];
+            document.querySelectorAll('input[name="renewal"]:checked').forEach(checkbox => {
+                renewalActivities.push(checkbox.nextElementSibling.textContent);
+            });
+            const otherActivity = document.getElementById('otherActivity').value;
+            if (otherActivity) {
+                renewalActivities.push(otherActivity);
+            }
+            const renewalText = renewalActivities.length > 0 ? renewalActivities.join(', ') : 'Not specified';
+            
+            const reflection = document.getElementById('reflection').value || 'Not specified';
 
             // Create a temporary container for PDF content
             const pdfContainer = document.createElement('div');
             pdfContainer.style.position = 'absolute';
             pdfContainer.style.left = '-9999px';
-            pdfContainer.style.width = '210mm'; // A4 width
+            pdfContainer.style.width = '210mm';
             pdfContainer.style.padding = '20mm';
             pdfContainer.style.backgroundColor = '#ffffff';
             pdfContainer.style.fontFamily = 'Arial, sans-serif';
             pdfContainer.style.color = '#333';
 
             pdfContainer.innerHTML = `
-                <h1 style="color: #38416D; border-bottom: 3px solid #38416D; padding-bottom: 10px; margin-bottom: 20px; font-size: 32px;">Meeting Agenda</h1>
+                <h1 style="color: #38416D; border-bottom: 3px solid #38416D; padding-bottom: 10px; margin-bottom: 20px; font-size: 32px;">My Rhythmic Workday Plan</h1>
                 
-                <h2 style="color: #38416D; margin-top: 25px; margin-bottom: 10px; font-size: 24px;">Meeting Details</h2>
-                <div style="margin: 8px 0; font-size: 14px;"><strong style="color: #38416D;">Date:</strong> ${formattedDate}</div>
-                <div style="margin: 8px 0; font-size: 14px;"><strong style="color: #38416D;">Time:</strong> ${timeDisplay}</div>
-                <div style="margin: 8px 0; font-size: 14px;"><strong style="color: #38416D;">Location:</strong> ${location || 'Not specified'}</div>
+                <h2 style="color: #38416D; margin-top: 25px; margin-bottom: 10px; font-size: 24px;">1. When I Feel Most Focused</h2>
+                <p style="font-size: 14px; line-height: 1.6; margin-left: 20px;">${focusTime}</p>
                 
-                <h2 style="color: #38416D; margin-top: 25px; margin-bottom: 10px; font-size: 24px;">Purpose</h2>
-                <p style="font-size: 14px; line-height: 1.6;">${purpose || 'Not specified'}</p>
+                <h2 style="color: #38416D; margin-top: 25px; margin-bottom: 10px; font-size: 24px;">2. My High-Focus Task</h2>
+                <p style="font-size: 14px; line-height: 1.6; margin-left: 20px;">${highFocusTask}</p>
                 
-                <h2 style="color: #38416D; margin-top: 25px; margin-bottom: 10px; font-size: 24px;">Objectives</h2>
-                <ul style="margin: 10px 0; padding-left: 25px; font-size: 14px;">
-                    ${objectives.length > 0 ? objectives.map(obj => `<li style="margin: 8px 0; line-height: 1.6;">${obj}</li>`).join('') : '<li>No objectives specified</li>'}
-                </ul>
+                <h2 style="color: #38416D; margin-top: 25px; margin-bottom: 10px; font-size: 24px;">3. My Focus Block</h2>
+                <div style="margin-left: 20px; font-size: 14px; line-height: 1.8;">
+                    <p>• Work for <strong>${workMinutes}</strong> minutes</p>
+                    <p>• Take a <strong>${breakMinutes}</strong> minute break</p>
+                    <p style="margin-top: 10px; color: #666; font-style: italic;">Repeat up to 4 cycles, then take a longer rest</p>
+                </div>
                 
-                <h2 style="color: #38416D; margin-top: 25px; margin-bottom: 10px; font-size: 24px;">Agenda</h2>
-                <table style="width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 13px;">
-                    <thead>
-                        <tr>
-                            <th style="background: #38416D; color: white; padding: 10px; text-align: left; border: 1px solid #38416D;">Time</th>
-                            <th style="background: #38416D; color: white; padding: 10px; text-align: left; border: 1px solid #38416D;">Topic</th>
-                            <th style="background: #38416D; color: white; padding: 10px; text-align: left; border: 1px solid #38416D;">Lead</th>
-                            <th style="background: #38416D; color: white; padding: 10px; text-align: left; border: 1px solid #38416D;">Notes / Materials</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${agendaRows.length > 0 ? agendaRows.map(item => `
-                            <tr>
-                                <td style="padding: 10px; border: 1px solid #ddd; line-height: 1.5;">${item.time || '-'}</td>
-                                <td style="padding: 10px; border: 1px solid #ddd; line-height: 1.5;">${item.topic || '-'}</td>
-                                <td style="padding: 10px; border: 1px solid #ddd; line-height: 1.5;">${item.lead || '-'}</td>
-                                <td style="padding: 10px; border: 1px solid #ddd; line-height: 1.5;">${item.notes || '-'}</td>
-                            </tr>
-                        `).join('') : '<tr><td colspan="4" style="padding: 10px; border: 1px solid #ddd;">No agenda items specified</td></tr>'}
-                    </tbody>
-                </table>
+                <h2 style="color: #38416D; margin-top: 25px; margin-bottom: 10px; font-size: 24px;">4. My Renewal Activities</h2>
+                <p style="font-size: 14px; line-height: 1.6; margin-left: 20px;">${renewalText}</p>
                 
-                <h2 style="color: #38416D; margin-top: 25px; margin-bottom: 10px; font-size: 24px;">Expected Outcomes</h2>
-                <ul style="margin: 10px 0; padding-left: 25px; font-size: 14px;">
-                    ${outcomes.length > 0 ? outcomes.map(outcome => `<li style="margin: 8px 0; line-height: 1.6;">${outcome}</li>`).join('') : '<li>No outcomes specified</li>'}
-                </ul>
+                <h2 style="color: #38416D; margin-top: 25px; margin-bottom: 10px; font-size: 24px;">5. My Commitment</h2>
+                <p style="font-size: 14px; line-height: 1.6; margin-left: 20px; font-style: italic; background: #f8f9fa; padding: 15px; border-radius: 6px; border-left: 4px solid #4353A3;">${reflection}</p>
             `;
 
             document.body.appendChild(pdfContainer);
 
-            // Capture as image using html2canvas
+            // Capture as image
             const canvas = await html2canvas(pdfContainer, { 
                 scale: 2, 
                 backgroundColor: '#ffffff', 
@@ -661,7 +388,6 @@
             });
             const imgData = canvas.toDataURL('image/png');
 
-            // Remove temporary container
             document.body.removeChild(pdfContainer);
 
             // Create PDF
@@ -669,7 +395,6 @@
             const pdfWidth = pdf.internal.pageSize.getWidth();
             const pdfHeight = pdf.internal.pageSize.getHeight();
 
-            // Compute image dimensions to keep aspect ratio
             const imgProps = pdf.getImageProperties(imgData);
             const imgWidthMm = pdfWidth;
             const imgHeightMm = (imgProps.height * imgWidthMm) / imgProps.width;
@@ -677,10 +402,8 @@
             if (imgHeightMm <= pdfHeight) {
                 pdf.addImage(imgData, 'PNG', 0, 0, imgWidthMm, imgHeightMm);
             } else {
-                // If long, tile image across pages
                 let position = 0;
                 let remainingHeight = imgHeightMm;
-                // Draw first page
                 pdf.addImage(imgData, 'PNG', 0, position, imgWidthMm, imgHeightMm);
                 remainingHeight -= pdfHeight;
                 while (remainingHeight > 0) {
@@ -691,9 +414,8 @@
                 }
             }
 
-            // Save PDF
-            const filename = date ? `Meeting_Agenda_${date}.pdf` : 'Meeting_Agenda.pdf';
-            pdf.save(filename);
+            const today = new Date().toISOString().split('T')[0];
+            pdf.save(`Rhythmic_Workday_Plan_${today}.pdf`);
         }
     </script>
 </body>
