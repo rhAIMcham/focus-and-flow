@@ -77,7 +77,7 @@
         padding: 20px;
         border-radius: 8px;
         height: fit-content;
-        margin: 0 20px 20px 20px;
+        margin: 20px 0;
       }
 
       .column-header {
@@ -326,6 +326,21 @@
           <div class="column-total" id="total4">Total: 0</div>
           <div class="cards-container" data-column="group4"></div>
         </div>
+        <div class="column">
+          <div class="column-header">Group 5</div>
+          <div class="column-total" id="total5">Total: 0</div>
+          <div class="cards-container" data-column="group5"></div>
+        </div>
+        <div class="column">
+          <div class="column-header">Group 6</div>
+          <div class="column-total" id="total6">Total: 0</div>
+          <div class="cards-container" data-column="group6"></div>
+        </div>
+        <div class="column">
+          <div class="column-header">Group 7</div>
+          <div class="column-total" id="total7">Total: 0</div>
+          <div class="cards-container" data-column="group7"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -411,7 +426,7 @@
     }
 
     function updateTotals() {
-      for (let i = 1; i <= 4; i++) {
+      for (let i = 1; i <= 7; i++) {
         const container = document.querySelector(`[data-column="group${i}"]`);
         const cards = container.querySelectorAll('.card');
         let total = 0;
@@ -438,7 +453,7 @@
       let allCorrect = true;
       let incorrectGroups = [];
 
-      for (let i = 1; i <= 4; i++) {
+      for (let i = 1; i <= 7; i++) {
         const container = document.querySelector(`[data-column="group${i}"]`);
         const cards = container.querySelectorAll('.card');
         let total = 0;
@@ -474,7 +489,7 @@
     function closeModal() {
       document.getElementById('resultsModal').classList.remove('show');
       // Clear visual feedback
-      for (let i = 1; i <= 4; i++) {
+      for (let i = 1; i <= 7; i++) {
         const container = document.querySelector(`[data-column="group${i}"]`);
         container.style.background = '';
         container.style.border = '';
