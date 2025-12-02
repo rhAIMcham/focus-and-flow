@@ -258,22 +258,18 @@
           </div>
           <div class="card" id="task2" data-difficulty="2" draggable="true">
             <div class="difficulty-badge">2</div>
-            <p>Create a simple digital invitation and send it to attendees.</p>
+            <p>Create a digital invitation and send it to attendees.</p>
           </div>
           <div class="card" id="task3" data-difficulty="3" draggable="true">
             <div class="difficulty-badge">3</div>
             <p>Select a venue and coordinate basic logistics like seating, music and refreshments.</p>
           </div>
-          <div class="card" id="task4" data-difficulty="1" draggable="true">
-            <div class="difficulty-badge">1</div>
-            <p>Add structure (moves down 1)</p>
+          <div class="card" id="task5" data-difficulty="-1" draggable="true">
+            <div class="difficulty-badge">-1</div>
+            <p>Simplify clutter</p>
           </div>
-          <div class="card" id="task5" data-difficulty="1" draggable="true">
-            <div class="difficulty-badge">1</div>
-            <p>Simplify clutter (moves down 1)</p>
-          </div>
-          <div class="card" id="task6" data-difficulty="2" draggable="true">
-            <div class="difficulty-badge">2</div>
+          <div class="card" id="task6" data-difficulty="3" draggable="true">
+            <div class="difficulty-badge">3</div>
             <p>Plan engaging activities to help guests connect naturally.</p>
           </div>
           <div class="card" id="task7" data-difficulty="1" draggable="true">
@@ -288,16 +284,16 @@
             <div class="difficulty-badge">2</div>
             <p>Consult with others before deciding (moves up 2)</p>
           </div>
-          <div class="card" id="task10" data-difficulty="1" draggable="true">
-            <div class="difficulty-badge">1</div>
-            <p>Consult with the graphic designer (moves up 1)</p>
+          <div class="card" id="task10" data-difficulty="-1" draggable="true">
+            <div class="difficulty-badge">-1</div>
+            <p>Consult with the graphic designer</p>
           </div>
-          <div class="card" id="task11" data-difficulty="2" draggable="true">
-            <div class="difficulty-badge">2</div>
-            <p>Only consult with those who make decisions (moves down 2)</p>
+          <div class="card" id="task11" data-difficulty="-2" draggable="true">
+            <div class="difficulty-badge">-2</div>
+            <p>Only consult with those who make decisions</p>
           </div>
-          <div class="card" id="task12" data-difficulty="3" draggable="true">
-            <div class="difficulty-badge">3</div>
+          <div class="card" id="task12" data-difficulty="5" draggable="true">
+            <div class="difficulty-badge">5</div>
             <p>Proactively coordinate with multiple departments to co-host the event, ensuring alignment on goals, budget and attendance.</p>
           </div>
         </div>
@@ -325,21 +321,6 @@
           <div class="column-header">Group 4</div>
           <div class="column-total" id="total4">Total: 0</div>
           <div class="cards-container" data-column="group4"></div>
-        </div>
-        <div class="column">
-          <div class="column-header">Group 5</div>
-          <div class="column-total" id="total5">Total: 0</div>
-          <div class="cards-container" data-column="group5"></div>
-        </div>
-        <div class="column">
-          <div class="column-header">Group 6</div>
-          <div class="column-total" id="total6">Total: 0</div>
-          <div class="cards-container" data-column="group6"></div>
-        </div>
-        <div class="column">
-          <div class="column-header">Group 7</div>
-          <div class="column-total" id="total7">Total: 0</div>
-          <div class="cards-container" data-column="group7"></div>
         </div>
       </div>
     </div>
@@ -426,7 +407,7 @@
     }
 
     function updateTotals() {
-      for (let i = 1; i <= 7; i++) {
+      for (let i = 1; i <= 4; i++) {
         const container = document.querySelector(`[data-column="group${i}"]`);
         const cards = container.querySelectorAll('.card');
         let total = 0;
@@ -453,7 +434,7 @@
       let allCorrect = true;
       let incorrectGroups = [];
 
-      for (let i = 1; i <= 7; i++) {
+      for (let i = 1; i <= 4; i++) {
         const container = document.querySelector(`[data-column="group${i}"]`);
         const cards = container.querySelectorAll('.card');
         let total = 0;
@@ -489,7 +470,7 @@
     function closeModal() {
       document.getElementById('resultsModal').classList.remove('show');
       // Clear visual feedback
-      for (let i = 1; i <= 7; i++) {
+      for (let i = 1; i <= 4; i++) {
         const container = document.querySelector(`[data-column="group${i}"]`);
         container.style.background = '';
         container.style.border = '';
