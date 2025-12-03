@@ -1,36 +1,453 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Task Difficulty Grouping</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Focus and Flow Strategy Exercise</title>
     <style>
-      :root {
-        --AIMblue: #4353A3;
-        --darkBlue: #38416D;
-        --teal: #5DC8B9;
-        --cream: #F1EEDE;
-        --grey: #e7e9ec;
-        --rust: #AF4510;
-        --navy: #12195C;
-        --white: #ffffff;
-        --lightBlue: #AEBAE4;
-      }
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
+        :root {
+            --AIMblue: #4353A3;
+            --darkBlue: #38416D;
+            --teal: #5DC8B9;
+            --cream: #F1EEDE;
+            --grey: #e7e9ec;
+            --rust: #AF4510;
+            --navy: #12195C;
+            --white: #ffffff;
+            --lightBlue: #AEBAE4;
+        }
 
-      body {
-        font-family: "IBM Plex Sans", sans-serif;
-        min-height: 90vh;
-        padding: 30px 20px;
-      }
-      </style>
-      </head>
-      <body>hi</body>
-      </html>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "IBM Plex Sans", sans-serif;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+        }
+
+        h1 {
+            color: var(--darkBlue);
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .section {
+            margin-bottom: 35px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid var(--AIMblue);
+        }
+
+        .section h2 {
+            color: var(--darkBlue);
+            margin-bottom: 20px;
+            font-size: 1.4em;
+        }
+
+        .instruction-box {
+            background: var(--cream);
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 0.95em;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #444;
+            font-weight: 500;
+            font-size: 0.95em;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 0.95em;
+            transition: border-color 0.3s;
+            font-family: inherit;
+            background: white;
+            cursor: pointer;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: var(--darkBlue);
+        }
+
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 0.95em;
+            transition: border-color 0.3s;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--darkBlue);
+        }
+
+        .strategies-list {
+            background: var(--lightBlue);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+
+        .strategies-list h3 {
+            color: var(--darkBlue);
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .strategy-item {
+            background: white;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+        }
+
+        .optional-section {
+            background: var(--grey);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .optional-section h3 {
+            color: var(--darkBlue);
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        button {
+            font-family: "IBM Plex Sans", sans-serif;
+            padding: 14px 30px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.05em;
+            font-weight: 600;
+            transition: all 0.3s;
+            background: var(--AIMblue);
+            color: white;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background: var(--teal);
+            color: black;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(93, 200, 185, 0.4);
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .container {
+                box-shadow: none;
+                padding: 20px;
+            }
+            
+            button {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>My Focus & Flow Strategy Commitment</h1>
+        <p class="subtitle">Review the strategies you have learnt throughout this course. Take note of those ideas which feel most relevant to your situation (e.g. environment, mindfulness, workflow, communication, time protection).</p>
+
+        <div class="section">
+            <div class="instruction-box">
+                <strong>Select your top 3 strategies from the dropdown menus below, then choose ONE strategy you will commit to for the next two weeks.</strong>
+            </div>
+
+            <div class="strategies-list">
+                <h3>My Top 3 Strategies</h3>
+                <div class="form-group">
+                    <label for="strategy1">Strategy #1</label>
+                    <select id="strategy1">
+                        <option value="">Select a strategy...</option>
+                        <option value="Environment optimization">Environment optimization</option>
+                        <option value="Mindfulness practice">Mindfulness practice</option>
+                        <option value="Time blocking">Time blocking</option>
+                        <option value="Pomodoro technique">Pomodoro technique</option>
+                        <option value="Digital boundaries">Digital boundaries</option>
+                        <option value="Communication protocols">Communication protocols</option>
+                        <option value="Time protection">Time protection</option>
+                        <option value="Energy management">Energy management</option>
+                        <option value="Task batching">Task batching</option>
+                        <option value="Single-tasking">Single-tasking</option>
+                        <option value="Break rituals">Break rituals</option>
+                        <option value="Workspace design">Workspace design</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="strategy2">Strategy #2</label>
+                    <select id="strategy2">
+                        <option value="">Select a strategy...</option>
+                        <option value="Environment optimization">Environment optimization</option>
+                        <option value="Mindfulness practice">Mindfulness practice</option>
+                        <option value="Time blocking">Time blocking</option>
+                        <option value="Pomodoro technique">Pomodoro technique</option>
+                        <option value="Digital boundaries">Digital boundaries</option>
+                        <option value="Communication protocols">Communication protocols</option>
+                        <option value="Time protection">Time protection</option>
+                        <option value="Energy management">Energy management</option>
+                        <option value="Task batching">Task batching</option>
+                        <option value="Single-tasking">Single-tasking</option>
+                        <option value="Break rituals">Break rituals</option>
+                        <option value="Workspace design">Workspace design</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="strategy3">Strategy #3</label>
+                    <select id="strategy3">
+                        <option value="">Select a strategy...</option>
+                        <option value="Environment optimization">Environment optimization</option>
+                        <option value="Mindfulness practice">Mindfulness practice</option>
+                        <option value="Time blocking">Time blocking</option>
+                        <option value="Pomodoro technique">Pomodoro technique</option>
+                        <option value="Digital boundaries">Digital boundaries</option>
+                        <option value="Communication protocols">Communication protocols</option>
+                        <option value="Time protection">Time protection</option>
+                        <option value="Energy management">Energy management</option>
+                        <option value="Task batching">Task batching</option>
+                        <option value="Single-tasking">Single-tasking</option>
+                        <option value="Break rituals">Break rituals</option>
+                        <option value="Workspace design">Workspace design</option>
+                    </select>
+                </div>
+            </div>
+
+            <h2>My Two-Week Commitment</h2>
+            
+            <div class="form-group">
+                <label for="strategy">The strategy I am choosing is...</label>
+                <textarea id="strategy" placeholder="Write your chosen strategy here"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="reason">I am choosing it because...</label>
+                <textarea id="reason" placeholder="Explain why this strategy resonates with you"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="application">I will apply it specifically at these times or in these situations...</label>
+                <textarea id="application" placeholder="Describe when and where you'll use this strategy"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="success">I will consider it successful if I notice...</label>
+                <textarea id="success" placeholder="What outcomes or changes would indicate success?"></textarea>
+            </div>
+
+            <div class="optional-section">
+                <h3>Optional: Turn it into a simple if-then statement</h3>
+                <div class="form-group">
+                    <label for="ifThen1">If I begin a deep work block, then I will...</label>
+                    <textarea id="ifThen1" placeholder="Complete the statement"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="ifThen2">If I feel the urge to check messages during that time, then I will...</label>
+                    <textarea id="ifThen2" placeholder="Complete the statement"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <button onclick="exportToPDF()">Download My Strategy Commitment</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <script>
+        const strategySummaries = {
+            "Environment optimization": "Environment optimization involves deliberately designing your physical workspace to minimize distractions and support deep focus. This includes controlling noise levels through headphones or quiet spaces, managing visual clutter by keeping your desk organized, optimizing lighting to reduce eye strain, and controlling temperature for comfort. Research shows that our environment significantly impacts our cognitive performance and ability to enter flow states. By creating a dedicated workspace that signals 'focus time' to your brain, you can reduce the mental effort needed to concentrate. Consider factors like ergonomics, accessibility of tools you need, and removal of temptations that pull you away from work. Small environmental changes can yield significant improvements in sustained attention and work quality.",
+            
+            "Mindfulness practice": "Mindfulness practice involves training your attention through techniques like meditation, breathing exercises, or present-moment awareness. Regular mindfulness practice strengthens your ability to notice when your mind wanders and gently redirect your attention back to the task at hand. Studies demonstrate that even brief daily mindfulness sessions can improve focus, reduce stress, and enhance cognitive flexibility. The practice helps you become more aware of your internal state, recognize early signs of distraction or fatigue, and respond intentionally rather than reactively. Mindfulness also supports emotional regulation, which is crucial for maintaining focus during challenging or frustrating tasks. You can incorporate mindfulness through formal meditation, mindful breathing between tasks, or simply bringing full attention to routine activities throughout your day.",
+            
+            "Time blocking": "Time blocking is a planning method where you divide your day into dedicated blocks of time, each assigned to specific tasks or types of work. Rather than working from a to-do list, you schedule when you'll do each task, treating these blocks as non-negotiable appointments with yourself. This approach helps prevent decision fatigue by eliminating constant choices about what to work on next. It also makes visible how much time you actually have available and forces realistic prioritization. Time blocking works particularly well when you group similar tasks together, protect your peak energy hours for demanding work, and include buffer time for unexpected issues. The visual nature of a time-blocked calendar helps you see patterns in how you spend time and identify opportunities to better align your schedule with your natural energy rhythms and priorities.",
+            
+            "Pomodoro technique": "The Pomodoro Technique structures work into focused intervals (traditionally 25 minutes) followed by short breaks (5 minutes), with longer breaks after completing several cycles. This method leverages our natural attention spans and the psychological benefits of timeboxing. Knowing a break is coming soon makes it easier to resist distractions and maintain intensity during work periods. The regular breaks prevent mental fatigue and maintain high performance throughout the day. The technique also provides natural checkpoints to assess progress and adjust your approach. You can customize the intervals to match your personal focus capacity—some people work better with 50-minute blocks, others with 15-minute sprints. The key is maintaining the rhythm of focused work followed by genuine rest, allowing your mind to process information and restore cognitive resources.",
+            
+            "Digital boundaries": "Digital boundaries involve establishing clear rules and systems to manage technology's impact on your focus. This includes strategies like turning off non-essential notifications, using website blockers during focus time, keeping phones out of sight, batching email and message checking into specific times, and using separate devices or profiles for work versus personal activities. Research consistently shows that even the presence of a smartphone reduces cognitive capacity, while notifications fragment attention and make it difficult to achieve deep focus. Creating digital boundaries isn't about avoiding technology but about using it intentionally rather than reactively. Consider implementing 'do not disturb' modes, removing distracting apps from your home screen, and establishing communication norms with colleagues about response times to reduce the pressure to be constantly available.",
+            
+            "Communication protocols": "Communication protocols are agreed-upon systems that help manage interactions and expectations in collaborative environments. This might include designated 'focus time' when colleagues avoid interrupting, clear indicators of availability (like status settings or office doors), established response time expectations for different communication channels, and regular check-in times that reduce the need for ad-hoc interruptions. Effective protocols balance individual focus needs with team coordination requirements. They might specify when to use synchronous versus asynchronous communication, how to mark urgent versus routine requests, and guidelines for meeting-free time blocks. When teams align on these protocols, everyone benefits from reduced interruptions while maintaining necessary collaboration. The key is making these protocols explicit, getting team buy-in, and regularly reviewing their effectiveness.",
+            
+            "Time protection": "Time protection involves actively defending your schedule against encroachment, treating your focus time with the same respect you'd give important external commitments. This means learning to say no to requests that don't align with priorities, declining meetings that lack clear purpose or that could be handled asynchronously, and blocking out focus time on your calendar before it fills with other commitments. Time protection requires clarity about your priorities and the confidence to advocate for what you need to do your best work. It often involves negotiation skills—offering alternatives like 'I can't meet Tuesday morning, but I'm available Tuesday afternoon' or 'I can't take this on this week, but I could next week.' Protecting time isn't selfish; it's professional stewardship of your capacity to deliver quality work.",
+            
+            "Energy management": "Energy management recognizes that your capacity for focus fluctuates throughout the day based on circadian rhythms, sleep quality, nutrition, physical activity, and mental depletion. Rather than treating all hours as equal, energy management involves identifying your peak focus times and protecting them for your most demanding work. It includes strategies like scheduling challenging cognitive work during your personal peak hours, planning lighter administrative tasks for low-energy periods, taking movement breaks to restore alertness, staying hydrated and nourished, and ensuring adequate sleep. Energy management also means recognizing different types of cognitive work require different types of energy—creative brainstorming feels different from detailed analysis or routine processing. By matching task demands to your available energy, you work with your natural rhythms rather than fighting them.",
+            
+            "Task batching": "Task batching groups similar tasks together to be completed in dedicated time blocks, reducing the cognitive cost of switching between different types of work. When you batch tasks, you set up your mental context once rather than repeatedly. For example, instead of answering emails throughout the day, you might batch email processing into two 30-minute blocks. Similarly, you might batch all phone calls, expense reporting, or content creation together. This approach reduces transition time and the mental effort of reorienting to different types of work. Research on task switching shows that even brief interruptions can significantly impact productivity and increase errors. Batching also helps you enter a rhythm or flow within that type of work, becoming more efficient as you progress through similar tasks.",
+            
+            "Single-tasking": "Single-tasking means giving your full attention to one task at a time, resisting the temptation to multitask. While we often believe we're efficient multitaskers, research consistently shows that humans can't truly focus on multiple complex tasks simultaneously. What we call multitasking is actually rapid task-switching, which impairs performance on all tasks, increases errors, and creates mental fatigue. Single-tasking allows you to work more efficiently, produce higher quality output, and experience less stress. It involves closing unnecessary tabs and applications, putting away your phone, clearing your workspace of materials for other projects, and committing to stay with one task until reaching a natural stopping point. The practice requires discipline but yields significant improvements in both work quality and the satisfaction that comes from complete engagement.",
+            
+            "Break rituals": "Break rituals are intentional, restorative activities you engage in between work sessions to refresh your mental resources. Effective breaks involve genuinely stepping away from work—not just switching to a different work task or mindlessly scrolling social media. Research shows that the most restorative breaks include physical movement, time in nature or looking at natural scenes, social connection, or engaging in activities you find intrinsically enjoyable. Break rituals might include a short walk, stretching routine, making tea mindfully, chatting with a colleague about non-work topics, or simply looking out a window. The key is consistency and genuine disengagement from work mode. Regular breaks aren't a sign of weakness or laziness; they're essential for sustained high performance and preventing burnout.",
+            
+            "Workspace design": "Workspace design encompasses the physical and organizational structure of where you work, going beyond simple environment optimization to create a space that actively supports your workflow and psychological needs. This includes ergonomic furniture that allows comfortable sustained work, organizational systems that keep essential tools accessible while minimizing visual distraction, lighting that adjusts for different tasks and times of day, and personal elements that provide motivation without becoming cluttered. Effective workspace design considers workflow patterns—placing frequently used items within easy reach and creating distinct zones for different types of work when possible. It might include standing desk options, multiple monitor arrangements, or acoustic treatments. The goal is creating a space that reduces friction for starting and maintaining focused work while supporting your physical comfort and mental wellbeing throughout extended work sessions."
+        };
+
+        async function exportToPDF() {
+            const { jsPDF } = window.jspdf;
+            
+            const strategy1 = document.getElementById('strategy1').value || 'Not selected';
+            const strategy2 = document.getElementById('strategy2').value || 'Not selected';
+            const strategy3 = document.getElementById('strategy3').value || 'Not selected';
+            const strategy = document.getElementById('strategy').value || 'Not specified';
+            const reason = document.getElementById('reason').value || 'Not specified';
+            const application = document.getElementById('application').value || 'Not specified';
+            const success = document.getElementById('success').value || 'Not specified';
+            const ifThen1 = document.getElementById('ifThen1').value || 'Not completed';
+            const ifThen2 = document.getElementById('ifThen2').value || 'Not completed';
+            
+            // Get summaries for selected strategies
+            const summary1 = strategySummaries[strategy1] || '';
+            const summary2 = strategySummaries[strategy2] || '';
+            const summary3 = strategySummaries[strategy3] || '';
+
+            const pdfContainer = document.createElement('div');
+            pdfContainer.style.position = 'absolute';
+            pdfContainer.style.left = '-9999px';
+            pdfContainer.style.width = '210mm';
+            pdfContainer.style.padding = '20mm';
+            pdfContainer.style.backgroundColor = '#ffffff';
+            pdfContainer.style.fontFamily = 'Arial, sans-serif';
+            pdfContainer.style.color = '#333';
+
+            pdfContainer.innerHTML = `
+                <h1 style="color: #38416D; border-bottom: 3px solid #38416D; padding-bottom: 10px; margin-bottom: 20px; font-size: 32px;">My Focus & Flow Strategy Commitment</h1>
+                
+                <h2 style="color: #38416D; margin-top: 25px; margin-bottom: 10px; font-size: 24px;">My top 3 strategies</h2>
+                
+                ${strategy1 !== 'Not selected' ? `
+                <div style="margin-bottom: 20px;">
+                    <h3 style="color: #4353A3; font-size: 18px; margin-bottom: 8px;">1. ${strategy1}</h3>
+                    <p style="font-size: 13px; line-height: 1.6; margin-left: 20px; text-align: justify;">${summary1}</p>
+                </div>
+                ` : '<p style="margin-left: 20px; font-size: 14px;">1. Not selected</p>'}
+                
+                ${strategy2 !== 'Not selected' ? `
+                <div style="margin-bottom: 20px;">
+                    <h3 style="color: #4353A3; font-size: 18px; margin-bottom: 8px;">2. ${strategy2}</h3>
+                    <p style="font-size: 13px; line-height: 1.6; margin-left: 20px; text-align: justify;">${summary2}</p>
+                </div>
+                ` : '<p style="margin-left: 20px; font-size: 14px;">2. Not selected</p>'}
+                
+                ${strategy3 !== 'Not selected' ? `
+                <div style="margin-bottom: 20px;">
+                    <h3 style="color: #4353A3; font-size: 18px; margin-bottom: 8px;">3. ${strategy3}</h3>
+                    <p style="font-size: 13px; line-height: 1.6; margin-left: 20px; text-align: justify;">${summary3}</p>
+                </div>
+                ` : '<p style="margin-left: 20px; font-size: 14px;">3. Not selected</p>'}
+                 <div style="page-break-before: always;"></div>
+
+                <h2 style="color: #38416D; margin-top: 30px; margin-bottom: 10px; font-size: 24px;">My two-week commitment</h2>
+                
+                <h3 style="color: #38416D; margin-top: 20px; margin-bottom: 8px; font-size: 18px;">The strategy I am choosing</h3>
+                <p style="font-size: 14px; line-height: 1.6; margin-left: 20px; background: #f8f9fa; padding: 15px; border-radius: 6px; border-left: 4px solid #4353A3;">${strategy}</p>
+                
+                <h3 style="color: #38416D; margin-top: 20px; margin-bottom: 8px; font-size: 18px;">Why I'm choosing it</h3>
+                <p style="font-size: 14px; line-height: 1.6; margin-left: 20px;">${reason}</p>
+                
+                <h3 style="color: #38416D; margin-top: 20px; margin-bottom: 8px; font-size: 18px;">When and where I'll apply it</h3>
+                <p style="font-size: 14px; line-height: 1.6; margin-left: 20px;">${application}</p>
+                
+                <h3 style="color: #38416D; margin-top: 20px; margin-bottom: 8px; font-size: 18px;">How I'll measure success</h3>
+                <p style="font-size: 14px; line-height: 1.6; margin-left: 20px;">${success}</p>
+                
+                <h3 style="color: #38416D; margin-top: 20px; margin-bottom: 8px; font-size: 18px;">My if-then statements</h3>
+                <div style="margin-left: 20px; font-size: 14px; line-height: 1.8;">
+                    <p style="margin-bottom: 15px;"><strong>If I begin a deep work block, then I will...</strong><br>${ifThen1}</p>
+                    <p><strong>If I feel the urge to check messages during that time, then I will...</strong><br>${ifThen2}</p>
+                </div>
+                
+                <div style="margin-top: 40px; padding: 15px; background: #AEBAE4; border-radius: 6px;">
+                    <p style="font-size: 14px; line-height: 1.6; color: #38416D; font-style: italic; margin: 0;">
+                        <strong>Commitment period:</strong> Next two weeks starting ${new Date().toLocaleDateString()}
+                    </p>
+                </div>
+            `;
+
+            document.body.appendChild(pdfContainer);
+
+            const canvas = await html2canvas(pdfContainer, { 
+                scale: 2, 
+                backgroundColor: '#ffffff', 
+                useCORS: true 
+            });
+            const imgData = canvas.toDataURL('image/png');
+
+            document.body.removeChild(pdfContainer);
+
+            const pdf = new jsPDF('p', 'mm', 'a4');
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = pdf.internal.pageSize.getHeight();
+
+            const imgProps = pdf.getImageProperties(imgData);
+            const imgWidthMm = pdfWidth;
+            const imgHeightMm = (imgProps.height * imgWidthMm) / imgProps.width;
+
+            if (imgHeightMm <= pdfHeight) {
+                pdf.addImage(imgData, 'PNG', 0, 0, imgWidthMm, imgHeightMm);
+            } else {
+                let position = 0;
+                let remainingHeight = imgHeightMm;
+                pdf.addImage(imgData, 'PNG', 0, position, imgWidthMm, imgHeightMm);
+                remainingHeight -= pdfHeight;
+                while (remainingHeight > 0) {
+                    position -= pdfHeight;
+                    pdf.addPage();
+                    pdf.addImage(imgData, 'PNG', 0, position, imgWidthMm, imgHeightMm);
+                    remainingHeight -= pdfHeight;
+                }
+            }
+
+            const today = new Date().toISOString().split('T')[0];
+            pdf.save(`Focus_Flow_Strategy_Commitment_${today}.pdf`);
+        }
+    </script>
+</body>
+</html>
