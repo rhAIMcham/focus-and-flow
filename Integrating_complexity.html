@@ -100,7 +100,7 @@
       }
 
       .cards-container {
-        min-height: 150px;
+        min-height: 50px;
         padding: 4px;
       }
 
@@ -260,41 +260,29 @@
             <div class="difficulty-badge">2</div>
             <p>Create a digital invitation and send it to attendees.</p>
           </div>
-          <div class="card" id="task3" data-difficulty="3" draggable="true">
-            <div class="difficulty-badge">3</div>
+          <div class="card" id="task3" data-difficulty="2" draggable="true">
+            <div class="difficulty-badge">2</div>
             <p>Select a venue and coordinate basic logistics like seating, music and refreshments.</p>
           </div>
-          <div class="card" id="task5" data-difficulty="-1" draggable="true">
-            <div class="difficulty-badge">-1</div>
-            <p>Simplify clutter</p>
+          <div class="card" id="task5" data-difficulty="1" draggable="true">
+            <div class="difficulty-badge">1</div>
+            <p>Coordinate with already overworked graphic designer to design company aligned invitation</p>
           </div>
-          <div class="card" id="task6" data-difficulty="3" draggable="true">
-            <div class="difficulty-badge">3</div>
+          <div class="card" id="task6" data-difficulty="4" draggable="true">
+            <div class="difficulty-badge">4</div>
             <p>Plan engaging activities to help guests connect naturally.</p>
           </div>
-          <div class="card" id="task7" data-difficulty="1" draggable="true">
-            <div class="difficulty-badge">1</div>
-            <p>Add and sequence additional steps (moves up 1)</p>
-          </div>
-          <div class="card" id="task8" data-difficulty="2" draggable="true">
-            <div class="difficulty-badge">2</div>
-            <p>Increase difficulty deliberately (moves up 2)</p>
-          </div>
-          <div class="card" id="task9" data-difficulty="2" draggable="true">
-            <div class="difficulty-badge">2</div>
-            <p>Consult with others before deciding (moves up 2)</p>
-          </div>
-          <div class="card" id="task10" data-difficulty="-1" draggable="true">
+          <div class="card" id="task7" data-difficulty="-1" draggable="true">
             <div class="difficulty-badge">-1</div>
-            <p>Consult with the graphic designer</p>
+            <p>ABrainstorm with the team in charge of activities at the event before deciding</p>
           </div>
-          <div class="card" id="task11" data-difficulty="-2" draggable="true">
-            <div class="difficulty-badge">-2</div>
-            <p>Only consult with those who make decisions</p>
-          </div>
-          <div class="card" id="task12" data-difficulty="5" draggable="true">
+          <div class="card" id="task8" data-difficulty="5" draggable="true">
             <div class="difficulty-badge">5</div>
-            <p>Proactively coordinate with multiple departments to co-host the event, ensuring alignment on goals, budget and attendance.</p>
+            <p>Coordinate with multiple departments to co-host the event, ensuring alignment on goals, budget and attendance.</p>
+          </div>
+                    <div class="card" id="task4" data-difficulty="-2" draggable="true">
+            <div class="difficulty-badge">-2</div>
+            <p>Simplify by only consulting with those who can make decision e.g. on budgets.</p>
           </div>
         </div>
       </div>
@@ -303,24 +291,26 @@
     <div class="actionArea">
       <div class="board">
         <div class="column">
-          <div class="column-header">Group 1</div>
+          <div class="cards-container" data-column="group1">
+               <div class="column-header">Group 1</div>
           <div class="column-total" id="total1">Total: 0</div>
-          <div class="cards-container" data-column="group1"></div>
+          </div>
         </div>
         <div class="column">
-          <div class="column-header">Group 2</div>
+          <div class="cards-container" data-column="group2">
+            <div class="column-header">Group 2</div>
           <div class="column-total" id="total2">Total: 0</div>
-          <div class="cards-container" data-column="group2"></div>
+          </div>
         </div>
         <div class="column">
-          <div class="column-header">Group 3</div>
-          <div class="column-total" id="total3">Total: 0</div>
-          <div class="cards-container" data-column="group3"></div>
+          <div class="cards-container" data-column="group3">      
+            <div class="column-header">Group 3</div>
+          <div class="column-total" id="total3">Total: 0</div></div>
         </div>
         <div class="column">
-          <div class="column-header">Group 4</div>
-          <div class="column-total" id="total4">Total: 0</div>
-          <div class="cards-container" data-column="group4"></div>
+          <div class="cards-container" data-column="group4">
+            <div class="column-header">Group 4</div>
+          <div class="column-total" id="total4">Total: 0</div></div>
         </div>
       </div>
     </div>
