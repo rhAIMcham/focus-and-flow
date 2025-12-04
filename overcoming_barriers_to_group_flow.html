@@ -48,7 +48,6 @@
       display: flex;
       flex-grow: 1;
       gap: 20px;
-      overflow-x: auto;
       padding-bottom: 20px;
       justify-content: space-around;
       flex-wrap: wrap;
@@ -57,10 +56,9 @@
     .column {
  background: linear-gradient(1deg,rgba(67, 83, 163, 0.5) 0%, rgba(174, 186, 228, 0.57) 100%);  border-radius: 8px;
       padding: 12px;
-      min-width: 320px;
-      max-width: 320px;
+      width: 450px;
+      height: 300px;
       flex-shrink: 0;
-      height: fit-content;
     }
     .dragItems {
         border: solid 2px var(--darkBlue);
@@ -74,7 +72,6 @@
       font-weight: 600;
       font-size: 1.1em;
       color: #172b4d;
-      padding: 8px 12px;
     }
 
     .column-header > p {
@@ -252,7 +249,6 @@ margin: 20px;
 
 .sim_desc {
 color: black;
-margin: 20px;
 }
 
 
