@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Task Difficulty Grouping</title>
+  <title>Overcoming barriers to group flow</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
     <style>
-      :root {
+            :root {
         --AIMblue: #4353A3;
         --darkBlue: #38416D;
         --teal: #5DC8B9;
@@ -17,20 +17,494 @@
         --rust: #AF4510;
         --navy: #12195C;
         --white: #ffffff;
-        --lightBlue: #AEBAE4;
-      }
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
+        --lightBlue: #c8cee1;
+    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-      body {
-        font-family: "IBM Plex Sans", sans-serif;
-        min-height: 90vh;
-        padding: 30px 20px;
+        body {
+      font-family: "IBM Plex Sans", sans-serif;
+            min-height: 90vh;
+   padding: 30px 20px;
+        }
+
+    .container {
+      justify-content: center;
+      margin: 0 auto;
+    }
+
+    h1 {
+      color: var(--darkBlue);
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 2em;
+      font-weight: 600;
+    }
+
+    .board {
+      display: flex;
+      flex-grow: 1;
+      gap: 20px;
+      overflow-x: auto;
+      padding-bottom: 20px;
+      justify-content: space-around;
+      flex-wrap: wrap;
+    }
+
+    .column {
+ background: linear-gradient(1deg,rgba(67, 83, 163, 0.5) 0%, rgba(174, 186, 228, 0.57) 100%);  border-radius: 8px;
+      padding: 12px;
+      min-width: 320px;
+      max-width: 320px;
+      flex-shrink: 0;
+      height: fit-content;
+    }
+    .dragItems {
+        border: solid 2px var(--darkBlue);
+    padding: 20px;
+    border-radius: 8px;
+    height: fit-content;
+    margin: 0 20px 20px 20px
+    }
+
+    .column-header {
+      font-weight: 600;
+      font-size: 1.1em;
+      color: #172b4d;
+      padding: 8px 12px;
+    }
+
+    .column-header > p {
+        font-weight: 300;
+    }
+    .cards-container {
+      min-height: 100px;
+      padding: 4px;
+
+    }
+    #cardHome {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+    }
+
+    .card {
+      background: #dce0f0;
+      border: solid 2px var(--darkBlue);
+      border-radius: 6px;
+      padding: 16px;
+      margin-bottom: 10px;
+      cursor: move;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+      transition: transform 0.2s, box-shadow 0.2s;
+      width: 290px;
+      height: 100px;
+    }
+
+    .card:hover {
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+      transform: translateY(-2px);
+    }
+
+    .card.dragging {
+      opacity: 0.5;
+      transform: rotate(3deg);
+    }
+
+    .cards-container.drag-over {
+      background: #d5dce4;
+      border-radius: 6px;
+    }
+
+    .form-group {
+      margin-bottom: 12px;
+    }
+
+    .form-group:last-child {
+      margin-bottom: 0;
+    }
+
+    label {
+      display: block;
+      font-size: 0.85em;
+      font-weight: 600;
+      color: #5e6c84;
+      margin-bottom: 4px;
+    }
+
+    select, input[type="text"], input[type="date"] {
+      width: 100%;
+      padding: 8px 10px;
+      border: 2px solid #dfe1e6;
+      border-radius: 4px;
+      font-size: 0.95em;
+      font-family: inherit;
+      transition: border-color 0.2s;
+    }
+
+    select:focus, input:focus {
+      outline: none;
+      border-color: #0079bf;
+    }
+
+    .add-card-btn {
+      width: 100%;
+      padding: 10px;
+      background: transparent;
+      border: none;
+      color: #5e6c84;
+      cursor: pointer;
+      border-radius: 6px;
+      font-size: 0.95em;
+      text-align: left;
+      transition: background 0.2s;
+    }
+
+    .add-card-btn:hover {
+      background: #d5dce4;
+    }
+    
+    #submitBtn {
+      display: block;
+      margin: 30px auto;
+      padding: 12px 40px;
+      background: var(--AIMblue);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1.1em;
+      font-weight: 600;
+      cursor: pointer;
+      opacity: 0.5;
+      transition: all 0.2s;
+    }
+
+    #submitBtn:not(:disabled):hover {
+      background: var(--darkBlue);
+      transform: translateY(-2px);
+    }
+
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-overlay.show {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      max-width: 600px;
+      width: 90%;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    }
+
+    .modal-content h2 {
+      color: var(--darkBlue);
+      margin-bottom: 20px;
+      font-size: 1.8em;
+    }
+
+    .modal-content p {
+      font-size: 1.1em;
+      line-height: 1.6;
+      color: #5e6c84;
+      margin-bottom: 10px;
+    }
+
+    .modal-close-btn {
+      margin-top: 20px;
+      padding: 12px 30px;
+      background: var(--AIMblue);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .modal-close-btn:hover {
+      background: var(--darkBlue);
+    }
+       .actionArea {
+      display: flex;
+    }
+    .sim_icon {
+width: 350px;
+margin: 20px;
+}
+
+.sim_desc {
+color: black;
+margin: 20px;
+}
+
+
+.sim_char {
+width: 200px;
+background: #efefef;
+  border-radius: 8px;
+}
+.headShot {
+width: 150px;
+margin: 20px;
+}
+  </style>
+</head>
+<body>
+<div class="container">
+    <div class="dragItems">
+        <div class="column-header">Draggable Items</div>
+            <div class="cards-container" data-column="dragItems" id="cardHome">
+                <div class="card"  id="flow3" draggable="true">
+                    <p>
+                    A quiet, private workinv environment
+                 </p>
+                </div>
+                <div class="card"  id="focus1" draggable="true">
+                    <p>They read through the technical manual with intense concentration, trying to memorise the steps exactly, mentally drained but determined to finish.         
+                    </p>
+                </div>
+                <div class="card"  id="focus2" draggable="true">
+                    <p>They reviewed the legal contract line by line, carefully analysing every clause, aware of the pressure to get it right.
+                    </p>
+                </div>
+                <div class="card" id="flow2" draggable="true">
+                    <p>
+                    They sketched the landscape, losing track of everything else, fully immersed in the act of creating without judgement or self-consciousness
+                    </p>
+                </div>
+                <div class="card"  id="focus3" draggable="true">
+                    <p>
+                    They methodically checked each number for errors on the spreadsheet, feeling tense and forcing themself to stay on task
+                    </p>
+                </div>
+                <div class="card" id="flow1" draggable="true">
+                    <p>
+                    They played the piano effortlessly, completely absorbed in the music, feeling time dissolve as their fingers moved with intuitive precision.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+<div class="actionArea">
+    <div class="board">
+        <div class="column">
+            <div class="cards-container" data-column="purposeGroup">
+                <div class="column-header">
+                <p class="sim_desc">Lauren, project sponsor. She responds well to humour and a high energy delivery. She has a lot of experience in this area and could be a great ally. Open to new things.</p>
+                <img src="Assets/character-default.jpg" alt="Headshot of young professional woman." class="headShot">
+                </div>
+            </div>
+        </div>
+        <div class="column">
+            <div class="cards-container" data-column="objGroup">
+                <div class="column-header">
+                <p class="sim_desc">Rowena, finance focused. Rowena also responds well to humour, and to a direct approach. She’s a critical and analytical thinker and responds well to clearly thought-out plans. </p>
+                <img src="Assets/character-default.jpg" alt="Headshot of young professional woman." class="headShot">
+                </div>
+            </div>
+        </div>
+        <div class="column">
+            <div class="cards-container" data-column="objGroup">
+                <div class="column-header">
+                <p class="sim_desc">Albert, operations manager. As someone involved in the day-to-day running of the business, Albert responds best to clarity and transparency. Having a clear scope and target will get him on board.</p>
+                <img src="Assets/character-default.jpg" alt="Headshot of young professional woman." class="headShot">
+                </div>
+            </div>
+        </div>
+        <div class="column">
+            <div class="cards-container" data-column="objGroup">
+                <div class="column-header">
+                <p class="sim_desc">Sam, Senior manager. While Sam won’t be as involved in the day-to-day running of this project, she's interested to see what new things you can bring to the company. A strategic thinker, she responds best to clear goals, high aspirations and a desire to deliver the best.</p>
+                <img src="Assets/character-default.jpg" alt="Headshot of young professional woman." class="headShot">
+                </div>
+            </div>
+        </div>
+    </div>   
+</div>
+
+</div>
+    <button onclick="checkAnswers()" id="submitBtn" disabled>Submit</button>
+  <div class="modal-overlay" id="resultsModal">
+    <div class="modal-content">
+      <h2 id="modalTitle"></h2>
+      <div id="modalMessage"></div>
+      <button class="modal-close-btn" onclick="closeModal()">Close</button>
+    </div>
+  </div>
+   <script>
+    let draggedCard = null;
+
+    function initDragAndDrop() {
+      const cards = document.querySelectorAll('.card');
+      const containers = document.querySelectorAll('.cards-container');
+
+      cards.forEach(card => {
+        card.addEventListener('dragstart', handleDragStart);
+        card.addEventListener('dragend', handleDragEnd);
+      });
+
+      containers.forEach(container => {
+        container.addEventListener('dragover', handleDragOver);
+        container.addEventListener('drop', handleDrop);
+        container.addEventListener('dragleave', handleDragLeave);
+        container.addEventListener('dragenter', handleDragEnter);
+      });
+    }
+
+    function handleDragStart(e) {
+      draggedCard = this;
+      this.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+    }
+
+    function handleDragEnd(e) {
+      this.classList.remove('dragging');
+      document.querySelectorAll('.cards-container').forEach(container => {
+        container.classList.remove('drag-over');
+      });
+    }
+
+    function handleDragOver(e) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      return false;
+    }
+
+    function handleDragEnter(e) {
+      if (e.target.classList.contains('cards-container')) {
+        e.target.classList.add('drag-over');
       }
-      </style>
-      </head>
-      <body>hi</body>
-      </html>
+    }
+
+    function handleDragLeave(e) {
+      if (e.target.classList.contains('cards-container')) {
+        e.target.classList.remove('drag-over');
+      }
+    }
+
+    function handleDrop(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      let dropZone = e.target;
+      if (!dropZone.classList.contains('cards-container')) {
+        dropZone = dropZone.closest('.cards-container');
+      }
+      
+      if (dropZone && draggedCard) {
+        dropZone.classList.remove('drag-over');
+        dropZone.appendChild(draggedCard);
+        checkIfAllDragged();
+      }
+      
+      return false;
+    }
+
+    function checkIfAllDragged() {
+      const dragItemsContainer = document.querySelector('[data-column="dragItems"]');
+      const remainingCards = dragItemsContainer.querySelectorAll('.card');
+      const submitBtn = document.getElementById('submitBtn');
+      
+      if (remainingCards.length === 0) {
+        submitBtn.disabled = false;
+        submitBtn.style.opacity = '1';
+        submitBtn.style.cursor = 'pointer';
+      }
+    }
+
+    function checkAnswers() {
+      // Define correct answers
+      const correctAnswers = {
+        purposeGroup: ['focus1', 'focus2', 'focus3'],
+        objGroup: ['flow1', 'flow2', 'flow3']
+        
+      };
+
+      let allCorrect = true;
+      let results = {
+        purposeGroup: { correct: 0, total: 3 },
+        objGroup: { correct: 0, total: 3 }
+      };
+
+      // Check purpose group column
+      const purposeContainer = document.querySelector('[data-column="purposeGroup"]');
+      const purposeCards = purposeContainer.querySelectorAll('.card');
+     purposeCards.forEach(card => {
+        if (correctAnswers.purposeGroup.includes(card.id)) {
+          results.purposeGroup.correct++;
+      card.style.border = '3px solid #0f7c2e';
+        } else {
+          allCorrect = false;
+         card.style.border = '3px solid #d32f2f';
+        }
+      });
+
+      // Check communication tools column
+      const objContainer = document.querySelector('[data-column="objGroup"]');
+      const objCards = objContainer.querySelectorAll('.card');
+      objCards.forEach(card => {
+        if (correctAnswers.objGroup.includes(card.id)) {
+          results.objGroup.correct++;
+          card.style.border = '3px solid #0f7c2e';
+        } else {
+          allCorrect = false;
+          card.style.border = '3px solid #d32f2f';
+        }
+      });
+
+    //         // Check purpose group column
+    //   const outContainer = document.querySelector('[data-column="outGroup"]');
+    //   const outCards = outContainer.querySelectorAll('.card');
+    //  outCards.forEach(card => {
+    //     if (correctAnswers.outGroup.includes(card.id)) {
+    //       results.outGroup.correct++;
+    //       card.style.border = '3px solid #0f7c2e';
+    //     } else {
+    //       allCorrect = false;
+    //       card.style.border = '3px solid #d32f2f';
+    //     }
+    //   });
+
+      // Display results
+      if (allCorrect && purposeCards.length === 3 && objCards.length === 3) {
+          showModal('Correct!', 'All cards are in the correct columns!');
+      } else {
+              let message = `<p>Not quite.</p>`;
+        // message += '<p style="margin-top: 20px; font-size: 0.95em;">Green border = correct, Red border = incorrect</p>';
+        showModal('Results', message);
+      }
+    }
+        function showModal(title, message) {
+      document.getElementById('modalTitle').textContent = title;
+      document.getElementById('modalMessage').innerHTML = message;
+      document.getElementById('resultsModal').classList.add('show');
+    }
+
+    function closeModal() {
+      document.getElementById('resultsModal').classList.remove('show');
+    }
+
+
+    // Initialize on page load
+    initDragAndDrop();
+  </script>
+</body>
+</html>
