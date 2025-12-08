@@ -122,7 +122,11 @@ li {
   -webkit-transition: .4s;
   transition: .4s;
 }
-
+input:focus + .slider {
+  box-shadow: 0 0 0 3px var(--darkBlue), inset 0 0 0 2px var(--darkBlue);
+  outline: 2px solid var(--darkBlue);
+  outline-offset: 2px;
+}
 .inputOne:checked + .slider {
   background-color: #38416D;
 }
@@ -376,171 +380,7 @@ fieldset {
                     name="five"
                     autocomplete="off">
                   <span class="slider round"></span></label></div>
-              <!--Check 6-->
-              <!--<div class="checkContainer">
-              <p label="question6">Follows rules</p>
-                <label class="switch">
-                    <input
-                    class="inputOne"
-                    type="checkbox"
-                    role="switch"
-                    name="six"
-                    autocomplete="off">
-                  <span class="slider round"></span></label></div>
-           
-              <div class="checkContainer">
-              <p label="question7">Reads and follows instructions</p>
-                <label class="switch">
-                    <input
-                    class="inputOne"
-                    type="checkbox"
-                    role="switch"
-                    name="seven"
-                    autocomplete="off">
-                  <span class="slider round"></span></label></div>
-        
-              <div class="checkContainer">
-              <p label="question8">Can prefer the status quo</p>
-                <label class="switch">
-                    <input
-                    class="inputOne"
-                    type="checkbox"
-                    role="switch"
-                    name="eight"
-                    autocomplete="off">
-                  <span class="slider round"></span></label></div>
-    
-              <div class="checkContainer">
-              <p label="question9">Careful</p>
-                <label class="switch">
-                    <input
-                    class="inputOne"
-                    type="checkbox"
-                    role="switch"
-                    name="nine"
-                    autocomplete="off">
-                  <span class="slider round"></span></label></div>
-                  
-              <div class="checkContainer">
-              <p label="question10">Thorough</p>
-                <label class="switch">
-                    <input
-                    class="inputOne"
-                    type="checkbox"
-                    role="switch"
-                    name="ten"
-                    autocomplete="off">
-                  <span class="slider round"></span></label></div>
-            
-              <div class="checkContainer">
-              <p label="question11">Reserved</p>
-                <label class="switch">
-                    <input
-                    class="inputOne"
-                    type="checkbox"
-                    role="switch"
-                    name="eleven"
-                    autocomplete="off">
-                  <span class="slider round"></span></label></div>
-              
-              <div class="checkContainer">
-              <p label="question12">Perceptive</p>
-                <label class="switch">
-                    <input
-                    class="inputOne"
-                    type="checkbox"
-                    role="switch"
-                    name="twelve"
-                    autocomplete="off">
-                  <span class="slider round"></span></label></div>
-             
-              <div class="checkContainer">
-              <p label="question13">Dislikes sudden or abrupt change</p>
-                <label class="switch">
-                    <input
-                    class="inputOne"
-                    type="checkbox"
-                    role="switch"
-                    name="thirteen"
-                    autocomplete="off">
-                  <span class="slider round"></span></label></div>
-               
-              <div class="checkContainer">
-              <p label="question14">Can tend to be serious</p>
-                <label class="switch">
-                    <input
-                    class="inputOne"
-                    type="checkbox"
-                    role="switch"
-                    name="fourteen"
-                    autocomplete="off">
-                  <span class="slider round"></span></label></div>
-              
-              <div class="checkContainer">
-              <p label="question15">Cautious</p>
-                <label class="switch">
-                    <input
-                    class="inputOne"
-                    type="checkbox"
-                    role="switch"
-                    name="fifteen"
-                    autocomplete="off">
-                  <span class="slider round"></span></label></div>
-                
-              <div class="checkContainer">
-              <p label="question16">Diplomatic</p>
-                <label class="switch">
-                    <input
-                    class="inputOne"
-                    type="checkbox"
-                    role="switch"
-                    name="sixteen"
-                    autocomplete="off">
-                  <span class="slider round"></span></label></div>
-                 
-              <div class="checkContainer">
-              <p label="question17">Respectful</p>
-                <label class="switch">
-                    <input
-                    class="inputOne"
-                    type="checkbox"
-                    role="switch"
-                    name="seventeen"
-                    autocomplete="off">
-                  <span class="slider round"></span></label></div>
-             
-              <div class="checkContainer">
-              <p label="question18">Agreeable</p>
-                <label class="switch">
-                    <input
-                    class="inputOne"
-                    type="checkbox"
-                    role="switch"
-                    name="eighteen"
-                    autocomplete="off">
-                  <span class="slider round"></span></label></div>
-            
-              <div class="checkContainer">
-              <p label="question19">Checks for accuracy</p>
-                <label class="switch">
-                    <input
-                    class="inputOne"
-                    type="checkbox"
-                    role="switch"
-                    name="nineteen"
-                    autocomplete="off">
-                  <span class="slider round"></span></label></div>
-                 
-              <div class="checkContainer">
-              <p label="question20">Logical</p>
-                <label class="switch">
-                    <input
-                    class="inputOne"
-                    type="checkbox"
-                    role="switch"
-                    name="twenty"
-                    autocomplete="off">
-                  <span class="slider round"></span></label></div>-->
+
               </div>
               <p style="display:none;"><output name="result" id="numericalResultOne"></output></p>
             </fieldset>
@@ -777,7 +617,7 @@ const chart = new Chart("communicationStyle", {
       },
       title: {
         display: true,
-        text: 'Communication Style Results',
+        text: 'Distraction Causes Results',
         color: 'black',
         font: {
           size: 20
